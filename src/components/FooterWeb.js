@@ -9,7 +9,7 @@ const FooterWeb = () => {
           <span>Kết nối với chúng tôi:</span>
           <ProgressBar animated now={55} />
         </div>
-        <div>
+        <div className="social">
           <a href="https://facebook.com" target="_blank" rel="noreferrer">
             <i
               className="bi bi-facebook c-facebook hcursor mr-5 ml-5"
@@ -54,7 +54,7 @@ const FooterWeb = () => {
             </div>
 
             <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Sản phẩm</h6>
+              <h6 className="text-uppercase fw-bold mb-4">Danh mục sách</h6>
               <p>
                 <Link to="/a" className="text-reset">
                   Sách Marketing
@@ -124,7 +124,7 @@ const FooterWeb = () => {
         </div>
       </section>
 
-      <div className="text-center text-light p-4 bg-success">
+      <div className="text-center text-dark p-4 bg-navbar">
         © 2022 Copyright:
         <a className="text-reset fw-bold me-3" href="/">
           &nbsp;VicxukyBook.com <br />
