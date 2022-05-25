@@ -51,18 +51,46 @@ code {
 }
 .category-items img{
   width: 30%;
-  // height: 100%;
   padding: 5px;
 
 }
 .category-marketing{
   border-radius: 10px;
   background-color: #fcddef;
-  .title-marketing{
+}
+.card-tow{
+  border: solid 1px white;
+  .img-card{
+    cursor: pointer;
+  }
+  .card-tow-body{
+    .card-tow-title{
+      font-weight: 500;
+      cursor: pointer;
+
+    }
+    .card-tow-price{
+      cursor: pointer;
+    }
 
   }
 }
-
+.nxb-book{
+  border: solid 1px #fcddef;
+  border-radius: 10px;
+  
+}
+.btn-web{
+  border-radius: 15px;
+  height: 35px;
+  width: 300px;
+  text-align: center;
+  font-weight: 500;
+  background-color: #fcddef;
+  outline: solid white 1px;
+  border: none;
+  margin: auto;
+}
 .social{
   font-size: 23px;
   .c-facebook:hover,

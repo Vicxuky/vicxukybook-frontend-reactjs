@@ -5,8 +5,10 @@ const Cardproduct = (props) => {
     <>
       <Card
         style={{
-          width: "13.6rem",
-          marginTop: "5px",
+          // width: "13.6rem",
+          width: props.width,
+
+          // marginTop: "5px",
           marginBottom: "8px",
           marginLeft: "0px",
         }}

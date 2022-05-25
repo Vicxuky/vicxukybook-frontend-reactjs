@@ -46,8 +46,8 @@ const NarbarMenu = () => {
                 Tất Cả Sách
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link as={Link} to="/tin-tuc">
-              Tin Tức
+            <Nav.Link as={Link} to="/review">
+              Review
             </Nav.Link>
             <Nav.Link as={Link} to="/lien-he">
               Liên Hệ
@@ -61,7 +61,7 @@ const NarbarMenu = () => {
                 className="mr-2 input-search"
                 aria-label="Search"
               />
-              <Button variant="outline-secondary" className="w-25">
+              <Button variant="outline-light" className="w-25">
                 <i class="bi bi-search"></i>
               </Button>
             </Form>
