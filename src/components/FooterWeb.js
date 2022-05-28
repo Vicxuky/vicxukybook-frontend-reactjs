@@ -48,7 +48,7 @@ const FooterWeb = () => {
           <div className="row mt-3">
             <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
               <h6 className="text-uppercase fw-bold mb-4">
-                <i class="bi bi-book"></i>&nbsp;Vicxuky Book
+                <i className="bi bi-book"></i>&nbsp;Vicxuky Book
               </h6>
               <p>Sách có tất cả những thứ bạn cần...</p>
             </div>

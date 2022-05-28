@@ -80,16 +80,40 @@ code {
   border-radius: 10px;
   
 }
-.btn-web{
-  border-radius: 15px;
-  height: 35px;
-  width: 300px;
+.btn-web,
+.btn-modal{
   text-align: center;
   font-weight: 500;
-  background-color: #fcddef;
-  outline: solid white 1px;
+  
   border: none;
   margin: auto;
+}
+.btn-web{
+  height: 35px;
+  width: 300px;
+  border-radius: 15px;
+  background-color: #fcddef;
+  outline: solid white 1px;
+}
+.btn-modal{
+  height: 38px;
+  color: white;
+  border-radius: 5px;
+  background-color: #0ab979;
+}
+
+.pass-input{
+  position: relative;
+}
+.pass-eye{
+  position:absolute;
+  top: 6px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.hover-web:hover{
+  opacity: 85%;
 }
 .social{
   font-size: 23px;

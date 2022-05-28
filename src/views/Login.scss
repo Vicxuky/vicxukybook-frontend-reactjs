@@ -4,9 +4,18 @@ body{
         background: linear-gradient(135deg, rgba(34,193,195,1) 0%,     rgb(54, 206, 74) 100%);
         padding-top: 50px;
         height: 100vh;
+        
         .btn-login{
             color: white;
             background: linear-gradient(135deg, rgba(34,193,195,1) 0%,     rgb(54, 206, 74) 100%);
+        }
+        .sp-login{
+            font-size: 14.5px;
+            font-style: italic;
+            a{
+
+                color: black;
+            }
         }
       }
 }

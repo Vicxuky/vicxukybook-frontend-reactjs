@@ -7,8 +7,11 @@ import {
   Button,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const NarbarMenu = () => {
+  const user = useSelector((state) => state.auth.login.currentUser);
+
   return (
     <>
       <Navbar
@@ -49,7 +52,7 @@ const NarbarMenu = () => {
             <Nav.Link as={Link} to="/review">
               Review
             </Nav.Link>
-            <Nav.Link as={Link} to="/lien-he">
+            <Nav.Link as={Link} to="/contact">
               Liên Hệ
             </Nav.Link>
           </Nav>
@@ -62,20 +65,34 @@ const NarbarMenu = () => {
                 aria-label="Search"
               />
               <Button variant="outline-light" className="w-25">
-                <i class="bi bi-search"></i>
+                <i className="bi bi-search"></i>
               </Button>
             </Form>
           </Nav>
           <Nav>
-            <Nav.Link as={Link} to="/signin">
-              <u>Đăng ký</u>
-            </Nav.Link>
-            <Nav.Link as={Link} to="/login" eventKey={2}>
-              <u>Đăng nhập</u>
-            </Nav.Link>
+            {user ? (
+              <>
+                <Nav.Link as={Link} to="/">
+                  {user.user.email}
+                </Nav.Link>
+                <Nav.Link as={Link} to="/logout">
+                  <u>Log out</u>
+                </Nav.Link>
+              </>
+            ) : (
+              <>
+                <Nav.Link as={Link} to="/signin">
+                  <u>Đăng ký</u>
+                </Nav.Link>
+                <Nav.Link as={Link} to="/login" eventKey={2}>
+                  <u>Đăng nhập</u>
+                </Nav.Link>
+              </>
+            )}
+
             <Nav.Link as={Link} to="/gio-hang">
               Giỏ Hàng
-              <i class="bi bi-cart"></i>
+              <i className="bi bi-cart"></i>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
