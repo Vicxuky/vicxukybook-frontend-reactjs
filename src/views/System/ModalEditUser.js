@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const ModalCreateNewUser = (props) => {
+const ModalEditUser = (props) => {
   const [errMessage, setErrMessage] = useState("");
+
   // s
   const [data, setData] = useState({
-    email: "",
-    password: "",
+    id: "",
     fullName: "",
     address: "",
     phoneNumber: "",
-    gender: "0",
-    roleId: "R3",
+    gender: "",
+    roleId: "",
   });
 
   //
@@ -20,16 +20,10 @@ const ModalCreateNewUser = (props) => {
     setData({ ...copyData, [name]: value });
   };
 
-  const [ShowPassword, setShowPassword] = useState(false);
-
-  const handleShowHidePassword = () => {
-    setShowPassword(!ShowPassword);
-  };
-
   const checkInput = () => {
     let isCheck = true;
     setErrMessage("");
-    let arrInput = ["email", "password", "fullName", "address", "phoneNumber"];
+    let arrInput = ["email", "fullName", "address", "phoneNumber"];
     for (let i = 0; i < arrInput.length; i++) {
       if (!data[arrInput[i]]) {
         isCheck = false;
@@ -40,47 +34,37 @@ const ModalCreateNewUser = (props) => {
     return isCheck;
   };
 
-  const handleCreateUser = (e) => {
+  const handleSaveEditUser = (e) => {
     e.preventDefault();
     let isValid = checkInput();
     if (isValid === true) {
-      //call API
-      props.createNewUser(data);
+      //call API >> Manage
+      props.editUser(data);
     }
   };
+
+  useEffect(() => {
+    let copyUser = { ...props.currentUser };
+    setData({ ...copyUser });
+  }, [props]);
+
   return (
     <form>
       <span style={{ color: "red" }}>{errMessage}</span>
-      <div className="form-row mt-3">
-        <div className="form-group col-md-6">
+
+      <div className="form-row mt-3"></div>
+      <div className="form-row">
+        <div className="form-group col-md-12">
           <input
             type="email"
             className="form-control shadow-sm"
             name="email"
             placeholder="Email"
             value={data.email}
-            onChange={(e) => handleInput(e)}
+            disabled
           />
         </div>
-        <div className="form-group col-md-6">
-          <input
-            type={ShowPassword ? "text" : "password"}
-            className="form-control shadow-sm pass-input"
-            name="password"
-            placeholder="Password"
-            value={data.password}
-            onChange={(e) => handleInput(e)}
-          />
-          <span onClick={() => handleShowHidePassword()}>
-            <i
-              className={
-                ShowPassword ? "bi bi-eye pass-eye" : "bi bi-eye-slash pass-eye"
-              }
-            ></i>
-          </span>
-        </div>
-      </div>
-      <div className="form-row">
+
         <div className="form-group col-md-12">
           <input
             type="text"
@@ -117,7 +101,7 @@ const ModalCreateNewUser = (props) => {
         </div>
         <div className="form-group col-md-3">
           <select
-            defaultValue="0"
+            defaultValue={data.gender}
             onChange={(e) => handleInput(e)}
             name="gender"
             className="form-control"
@@ -128,7 +112,7 @@ const ModalCreateNewUser = (props) => {
         </div>
         <div className="form-group col-md-3">
           <select
-            defaultValue="R3"
+            defaultValue={data.roleId}
             onChange={(e) => handleInput(e)}
             name="roleId"
             className="form-control"
@@ -142,11 +126,11 @@ const ModalCreateNewUser = (props) => {
       <button
         type="submit"
         className="btn-block hover-web btn-modal mt-5"
-        onClick={(e) => handleCreateUser(e)}
+        onClick={(e) => handleSaveEditUser(e)}
       >
-        Create
+        Save
       </button>
     </form>
   );
 };
-export default ModalCreateNewUser;
+export default ModalEditUser;
