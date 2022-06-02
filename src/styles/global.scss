@@ -1,6 +1,10 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
+}
+a{
+  color: black;
 }
 
 body {
@@ -10,71 +14,65 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+ h1{
+   font-family: 'Roboto';
+ }
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-// .top-navbar{
-//   position:sticky;
-//   top:0;
-//   z-index: 1;
-// }
+
 .bg-navbar{
-  
   background-color: #fcddef;
-  // background-color: rgb(54, 206, 74);
-  // background-color: rgba(34,193,195,1);
-  
 }
+
 .input-search{
   width: 100%;
 }
+// css slick
+.slick-slider{
+  .slick-prev{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(236, 219, 219, .5);
+    margin-left: 15px;
+    z-index: 1;
+    &:hover{
+      background-color: rgba(236, 219, 219, .9);
+    }
+  }
+  .slick-next{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(236, 219, 219, .5);
+    margin-right: 15px;
+    &:hover{
+    background-color: rgba(236, 219, 219, .9);
+    transition: 0.5;
+
+    }
+  }
+  ul.slick-dots {
+    margin-bottom: 0px;
+  }
+}
+// * css slick
+
 .img-banner1 img{
   border-radius: 10px;
-
 }
+
 .img-banner1 img, .img-banner2 img{
   width: 100%;
   height: 100%;
   cursor: pointer;
 
 }
-.category{
-  background-color: #fcddef;
-  border-radius: 10px;
-}
-.category-items{
-  cursor: pointer;
-  border: solid 1px #ffffff;
-}
-.category-items img{
-  width: 30%;
-  padding: 5px;
 
-}
-.category-marketing{
-  border-radius: 10px;
-  background-color: #fcddef;
-}
-.card-tow{
-  border: solid 1px white;
-  .img-card{
-    cursor: pointer;
-  }
-  .card-tow-body{
-    .card-tow-title{
-      font-weight: 500;
-      cursor: pointer;
-
-    }
-    .card-tow-price{
-      cursor: pointer;
-    }
-
-  }
-}
 .nxb-book{
   border: solid 1px #fcddef;
   border-radius: 10px;
@@ -88,13 +86,15 @@ code {
   border: none;
   margin: auto;
 }
+
 .btn-web{
-  height: 35px;
+  height: 45px;
   width: 300px;
   border-radius: 15px;
   background-color: #fcddef;
   outline: solid white 1px;
 }
+
 .btn-modal{
   height: 38px;
   color: white;
@@ -115,31 +115,7 @@ code {
 .hover-web:hover{
   opacity: 85%;
 }
-.modal-create{
-  width: 1000px;
+.cursor-p{
+  cursor: pointer;
 }
-.social{
-  font-size: 23px;
-  .c-facebook:hover,
-  .c-twitter:hover,
-  .c-google:hover,
-  .c-instagram:hover,
-  .c-github:hover{
-    opacity: 60%;
-  }
-  .c-facebook{
-    color: #0d6efd;
-  }
-  .c-twitter{
-    color: #179cf0;
-  }
-  .c-google{
-    color: #d34338;
-  }
-  .c-instagram{
-    color: #f3845b;
-  }
-  .c-github{
-    color: black;
-  }
-}
+

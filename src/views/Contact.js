@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Layout from "../components/Layout";
-import "./Signin.scss";
+import "./Signin/Signin.scss";
 
 const Contact = () => {
   const [email, setEmail] = useState("");

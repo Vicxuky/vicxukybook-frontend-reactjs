@@ -12,7 +12,7 @@
 //   str = str.replace(/\s/g, "-");
 //   return str;
 // }
-export default Data = {
+export const Data = {
   Users: [
     {
       userName: "admin",

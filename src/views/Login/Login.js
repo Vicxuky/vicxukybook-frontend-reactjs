@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import Layout from "../components/Layout";
+import Layout from "../../components/Layout";
 import "./Login.scss";
 
-import { handleLogin } from "../services/userService";
+import { handleLogin } from "../../services/userService";
 
-import { loginStart, loginSuccess, loginFailed } from "../redux/authSlice";
+import { loginStart, loginSuccess, loginFailed } from "../../redux/authSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -48,6 +48,7 @@ const Login = () => {
       }
     } catch (err) {
       dispatch(loginFailed());
+      alert("Do not connect server..");
 
       if (err.response) {
         if (err.response.data) {
@@ -56,6 +57,16 @@ const Login = () => {
       }
     }
   };
+
+  //  const handleLoginUser = (e) => {
+  //    e.preventDefault();
+  //    const newUser = {
+  //      email: email,
+  //      password: password,
+  //    }
+  //    loginUser(newUser, dispatch, navigate)
+
+  //  }
 
   return (
     <Layout>

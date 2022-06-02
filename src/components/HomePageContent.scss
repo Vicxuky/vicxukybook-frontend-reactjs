@@ -1,0 +1,35 @@
+
+.category{
+    background-color: #fcddef;
+    border-radius: 10px;
+    .category-items{
+        cursor: pointer;
+        border: solid 1px #ffffff;
+        img{
+            width: 30%;
+            padding: 5px;
+          
+          }
+      }
+  }
+ .category-products{
+   .title-category{
+     background-color: #fcddef;
+     border-top-left-radius: 15px;
+   }
+ }
+  .publisher{
+    background-color: #ffffff;
+    border-radius: 10px;
+    .publisher-items{
+        cursor: pointer;
+        border: solid 1px #fcddef;
+        img{
+            width: 30%;
+            padding: 5px;
+          
+          }
+          
+      }
+  }
+  

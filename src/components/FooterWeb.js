@@ -1,5 +1,6 @@
 import { ProgressBar } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "./FooterWeb.scss";
 
 const FooterWeb = () => {
   return (

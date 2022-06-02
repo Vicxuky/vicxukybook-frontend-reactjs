@@ -6,11 +6,20 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logOutUser } from "../services/userService";
 
 const NarbarMenu = () => {
   const user = useSelector((state) => state.auth.login.currentUser);
+
+  // const accessToken = user?.user.accessToken;
+  const id = user?.user.id;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    logOutUser(id, dispatch, navigate);
+  };
 
   return (
     <>
@@ -27,7 +36,7 @@ const NarbarMenu = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/thong-tin">
+            <Nav.Link as={Link} to="/about">
               Thông Tin
             </Nav.Link>
 
@@ -45,7 +54,7 @@ const NarbarMenu = () => {
                 Sách Học Tiếng Anh
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item as={Link} to="/san-pham">
+              <NavDropdown.Item as={Link} to="/products">
                 Tất Cả Sách
               </NavDropdown.Item>
             </NavDropdown>
@@ -73,9 +82,10 @@ const NarbarMenu = () => {
             {user ? (
               <>
                 <Nav.Link as={Link} to="/">
+                  <span>hi:&nbsp;</span>
                   {user.user.email}
                 </Nav.Link>
-                <Nav.Link as={Link} to="/logout">
+                <Nav.Link as={Link} to="/" onClick={handleLogout}>
                   <u>Log out</u>
                 </Nav.Link>
               </>
@@ -90,7 +100,7 @@ const NarbarMenu = () => {
               </>
             )}
 
-            <Nav.Link as={Link} to="/gio-hang">
+            <Nav.Link as={Link} to="/cart">
               Giỏ Hàng
               <i className="bi bi-cart"></i>
             </Nav.Link>

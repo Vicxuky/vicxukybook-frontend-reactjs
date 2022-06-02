@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Navbar, Nav, Button, Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import {
   getAllUserService,
   createNewUserService,
   deleteUserService,
   editUserService,
 } from "../../services/userService";
+import LayoutSystem from "./LayoutSystem";
 import ModalFormCreateUser from "./ModalCreateUser";
 import ModalFormEditUser from "./ModalEditUser";
 import "./UserManage.scss";
@@ -86,23 +87,7 @@ const Manage = () => {
   };
 
   return (
-    <>
-      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-        <Navbar.Brand href="#home">System</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="#features">Users</Nav.Link>
-            <Nav.Link href="#pricing">Products</Nav.Link>
-            <Nav.Link href="#pricing">Orders</Nav.Link>
-          </Nav>
-          <Nav>
-            <Nav.Link href="#out">
-              Log out<i className="bi bi-box-arrow-right ml-1"></i>
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+    <LayoutSystem>
       <div>
         <h2 className="text-center mt-3">Manage User</h2>
       </div>
@@ -148,6 +133,7 @@ const Manage = () => {
             </Modal.Footer>
           </Modal>
           {/* modal */}
+
           {/* modal edit user */}
           <Modal show={showEdit} onHide={handleCloseEdit} size="lg">
             <Modal.Header>
@@ -227,15 +213,7 @@ const Manage = () => {
           </table>
         </div>
       </div>
-      <footer className="bg-light text-center text-lg-start">
-        <div className="text-center p-3">
-          © 2022 Copyright:
-          <a className="text-dark pl-1" href="/">
-            vicxuky@admin.com
-          </a>
-        </div>
-      </footer>
-    </>
+    </LayoutSystem>
   );
 };
 export default Manage;

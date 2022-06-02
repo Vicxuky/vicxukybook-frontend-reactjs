@@ -1,7 +1,9 @@
+import "./Card2.scss";
+
 const Card2 = (props) => {
   return (
-    <div className="card-tow d-flex justify-content-around col-lg-6 p-1">
-      <div className="img-card">
+    <div className="card-tow d-flex justify-content-around col-lg-6 p-1 py-3">
+      <div className="card-tow-img">
         <img width={148} alt="123" src={props.image} />
       </div>
       <div className="card-tow-body">

@@ -1,15 +1,18 @@
 import axios from "axios";
-import { signinStart, signinSuccess, signinFailed } from "../redux/authSlice";
+import {
+  signinStart,
+  signinSuccess,
+  signinFailed,
+  logOutStart,
+  logOutFailed,
+  logOutSuccess,
+} from "../redux/authSlice";
 
-// const handleLogin = async (inputEmail, inputPassword) => {
+// const loginUser = async (user, dispath, navigate) => {
 //   // dispatch(loginStart());
 //   try {
-//     await axios.post("http://localhost:8000/api/v1/login", {
-//       email: inputEmail,
-//       password: inputPassword,
-//     });
+//     let res = await axios.post("http://localhost:8000/api/v1/login",user);
 //     // dispatch(loginSuccess(res.data));
-
 //     // navigate("/system");
 //   } catch (e) {
 //     // dispatch(loginFailed());
@@ -21,6 +24,22 @@ const handleLogin = (inputEmail, inputPassword) => {
     email: inputEmail,
     password: inputPassword,
   });
+};
+
+const logOutUser = async (id, dispath, navigate) => {
+  // const logOutUser = async (id, accessToken, dispath, navigate) => {
+  dispath(logOutStart());
+  try {
+    await axios.post("http://localhost:8000/api/v1/logout", id);
+    //  {
+
+    //   // headers: { token: `Bearer ${accessToken}` },
+    // });
+    dispath(logOutSuccess());
+    navigate("/");
+  } catch (e) {
+    dispath(logOutFailed());
+  }
 };
 
 const signinUser = async (user, dispatch, navigate) => {
@@ -36,11 +55,17 @@ const signinUser = async (user, dispatch, navigate) => {
 
 const getAllUserService = (inputId) => {
   // return axios.get(`http://localhost:8000/api/v1/get-all-user?id=${inputId}`);
-  return axios.get("http://localhost:8000/api/v1/get-all-user", {
-    params: {
-      id: inputId,
-    },
-  });
+  return axios.get(
+    "http://localhost:8000/api/v1/get-all-user",
+    {
+      params: {
+        id: inputId,
+      },
+    }
+    // {
+    //   headers: { token: `Bearer ${accessToken}` },
+    // }
+  );
 };
 
 const createNewUserService = (data) => {
@@ -61,6 +86,7 @@ const deleteUserService = (userId) => {
 
 export {
   handleLogin,
+  logOutUser,
   signinUser,
   getAllUserService,
   createNewUserService,

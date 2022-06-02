@@ -1,0 +1,25 @@
+.card-tow{
+    border: solid 1px #fcddef;
+    box-sizing: border-box;
+    &:hover{
+      border: none;
+      box-shadow: 1px 1px 5px #6e6269;
+      // transition: 1;
+      .card-tow-img{
+        cursor: pointer;
+      }
+      .card-tow-body{
+        .card-tow-title{
+          font-weight: 500;
+          cursor: pointer;
+    
+        }
+        .card-tow-price{
+          cursor: pointer;
+        }
+    
+      }
+    }
+    
+    
+  }

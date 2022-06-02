@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signinUser } from "../services/userService";
-import Layout from "../components/Layout";
+import { signinUser } from "../../services/userService";
+import Layout from "../../components/Layout";
 import "./Signin.scss";
 import { useDispatch } from "react-redux";
 
@@ -9,54 +9,98 @@ const Signin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [address, setAddress] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [gender, setGender] = useState(0);
+  const [errMessage, setErrMessage] = useState("");
+
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [fullName, setFullName] = useState("");
+  // const [address, setAddress] = useState("");
+  // const [phoneNumber, setPhoneNumber] = useState("");
+  // const [gender, setGender] = useState(0);
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+    fullName: "",
+    address: "",
+    phoneNumber: "",
+    gender: "0",
+  });
+  //
+  const handleInput = (e) => {
+    const copyData = { ...data };
+    const { name, value } = e.target;
+    setData({ ...copyData, [name]: value });
+  };
 
   const [ShowPassword, setShowPassword] = useState(false);
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  };
-
   const handleShowHidePassword = () => {
     setShowPassword(!ShowPassword);
   };
 
-  const handleFullName = (e) => {
-    setFullName(e.target.value);
+  const checkEmail = (emailInput) => {
+    let reg = "<>!#$%^&*()_+[]{}?:;|'\"\\,/~`-=";
+    // let reg = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=";
+    if (!emailInput) {
+      setErrMessage("Please enter your email");
+      return false;
+    } else {
+      for (let i = 0; i < emailInput.length; i++) {
+        if (reg.includes(emailInput[i])) {
+          setErrMessage("Email cannot contain special characters");
+          return;
+        }
+      }
+
+      if (emailInput.includes("@") && emailInput.includes(".")) {
+        return true;
+      } else {
+        setErrMessage(
+          "Invalid email. Please enter another email. Valid example: abc@gmail.com"
+        );
+        return false;
+      }
+    }
   };
 
-  const handleAddress = (e) => {
-    setAddress(e.target.value);
+  const checkPassword = (passwordInput) => {
+    if (!passwordInput) {
+      setErrMessage("Please enter your password");
+      return false;
+    } else if (passwordInput.length >= 4 && passwordInput.length <= 32) {
+      return true;
+    } else {
+      setErrMessage("Password 4 - 32 length");
+      return false;
+    }
   };
 
-  const handlePhoneNumber = (e) => {
-    setPhoneNumber(e.target.value);
-  };
-
-  const handleGender = (e) => {
-    setGender(e.target.value);
+  const checkPhoneNumber = (phoneNumberInput) => {
+    // console.log("err Number: ", errMessage);
+    if (!phoneNumberInput) {
+      setErrMessage("Please enter your phoneNumber");
+      return false;
+    }
+    if (phoneNumberInput.length < 10 || phoneNumberInput.length > 11) {
+      setErrMessage("PhoneNumber 10 - 11 length");
+      return false;
+    } else {
+      return true;
+    }
   };
 
   const handleSigninClick = (e) => {
     e.preventDefault();
-    const newUser = {
-      email: email,
-      password: password,
-      fullName: fullName,
-      address: address,
-      phoneNumber: phoneNumber,
-      gender: gender,
-    };
-    signinUser(newUser, dispatch, navigate);
+    setErrMessage("");
+    let checkInputEmail = checkEmail(data.email);
+    if (checkInputEmail) {
+      let checkInputPassword = checkPassword(data.password);
+      if (checkInputPassword) {
+        let checkInputPhoneNumber = checkPhoneNumber(data.phoneNumber);
+        if (checkInputPhoneNumber) {
+          signinUser(data, dispatch, navigate);
+        }
+      }
+    }
   };
 
   return (
@@ -70,6 +114,7 @@ const Signin = () => {
           <div className="mb-5">
             <h2 className="text-center text-success pt-3">Sign in</h2>
           </div>
+          <span style={{ color: "red" }}>{errMessage}</span>
           <div className="form-row">
             <div className="form-group col-md-6">
               <input
@@ -77,8 +122,8 @@ const Signin = () => {
                 className="form-control shadow-sm"
                 name="email"
                 placeholder="Email"
-                value={email}
-                onChange={(e) => handleEmail(e)}
+                value={data.email}
+                onChange={(e) => handleInput(e)}
               />
             </div>
             <div className="form-group col-md-6">
@@ -87,8 +132,8 @@ const Signin = () => {
                 className="form-control shadow-sm pass-input"
                 name="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => handlePassword(e)}
+                value={data.password}
+                onChange={(e) => handleInput(e)}
               />
               <span onClick={() => handleShowHidePassword()}>
                 <i
@@ -108,8 +153,8 @@ const Signin = () => {
                 className="form-control shadow-sm"
                 name="fullName"
                 placeholder="Full Name"
-                value={fullName}
-                onChange={(e) => handleFullName(e)}
+                value={data.fullName}
+                onChange={(e) => handleInput(e)}
               />
             </div>
           </div>
@@ -120,8 +165,8 @@ const Signin = () => {
                 className="form-control shadow-sm"
                 name="address"
                 placeholder="Address.."
-                value={address}
-                onChange={(e) => handleAddress(e)}
+                value={data.address}
+                onChange={(e) => handleInput(e)}
               />
             </div>
           </div>
@@ -132,14 +177,14 @@ const Signin = () => {
                 className="form-control shadow-sm"
                 name="phoneNumber"
                 placeholder="Phone Number"
-                value={phoneNumber}
-                onChange={(e) => handlePhoneNumber(e)}
+                value={data.phoneNumber}
+                onChange={(e) => handleInput(e)}
               />
             </div>
             <div className="form-group col-md-6">
               <select
-                defaultValue={"1"}
-                onChange={(e) => handleGender(e)}
+                defaultValue={"0"}
+                onChange={(e) => handleInput(e)}
                 id="inputState"
                 className="form-control"
               >

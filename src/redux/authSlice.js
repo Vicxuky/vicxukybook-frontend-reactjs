@@ -8,6 +8,10 @@ const authSlice = createSlice({
       isFetching: false,
       error: false,
     },
+    logout: {
+      isFetching: false,
+      error: false,
+    },
     signin: {
       isFetching: false,
       success: false,
@@ -28,6 +32,19 @@ const authSlice = createSlice({
       state.login.isFetching = false;
       state.login.error = true;
     },
+    // logout
+    logOutStart: (state) => {
+      state.logout.isFetching = true;
+    },
+    logOutSuccess: (state) => {
+      state.logout.isFetching = false;
+      state.login.currentUser = null;
+      state.logout.error = false;
+    },
+    logOutFailed: (state) => {
+      state.logout.isFetching = false;
+      state.logout.error = true;
+    },
     // sigin
     signinStart: (state) => {
       state.signin.isFetching = true;
@@ -37,7 +54,6 @@ const authSlice = createSlice({
       state.signin.success = true;
       state.signin.error = false;
     },
-
     signinFailed: (state) => {
       state.signin.isFetching = false;
       state.signin.success = false;
@@ -50,6 +66,9 @@ export const {
   loginStart,
   loginSuccess,
   loginFailed,
+  logOutStart,
+  logOutSuccess,
+  logOutFailed,
   signinStart,
   signinSuccess,
   signinFailed,
