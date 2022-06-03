@@ -21,8 +21,10 @@ const Cardproduct = (props) => {
           src={props.image}
         />
         <Card.Body>
-          <Card.Title>{props.title}</Card.Title>
-          <Card.Text>{props.desc}</Card.Text>
+          <Card.Title>
+            <h2>{props.title}</h2>
+          </Card.Title>
+          <Card.Text>{props.price} đ</Card.Text>
         </Card.Body>
         <Button
           variant="warning"

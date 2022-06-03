@@ -11,12 +11,6 @@ const Signin = () => {
 
   const [errMessage, setErrMessage] = useState("");
 
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [fullName, setFullName] = useState("");
-  // const [address, setAddress] = useState("");
-  // const [phoneNumber, setPhoneNumber] = useState("");
-  // const [gender, setGender] = useState(0);
   const [data, setData] = useState({
     email: "",
     password: "",

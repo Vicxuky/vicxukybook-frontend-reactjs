@@ -1,8 +1,21 @@
 import LayoutSystem from "../LayoutSystem";
 import { useEffect, useState } from "react";
+import Lightbox from "react-image-lightbox";
+import "react-image-lightbox/style.css";
+
+import {
+  createNewProductService,
+  deleteProductService,
+  editProductService,
+  getAllProductService,
+} from "../../../services/productService";
+import "./ManageProducts.scss";
 
 const ManageProducts = () => {
   const [errMessage, setErrMessage] = useState("");
+  const [urlImage, setUrlImage] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isCreate, setIsCreate] = useState(true);
 
   // s
   const [product, setProduct] = useState({
@@ -18,6 +31,9 @@ const ManageProducts = () => {
   });
 
   //
+  const [listProduct, setListProduct] = useState([]);
+
+  //
   const handleInput = (e) => {
     const copyData = { ...product };
     const { name, value } = e.target;
@@ -27,7 +43,7 @@ const ManageProducts = () => {
   const checkInput = () => {
     let isCheck = true;
     setErrMessage("");
-    let arrInput = ["title", "priceOld", "priceNew", "desc"];
+    let arrInput = ["title", "priceOld", "priceNew", "desc", "image"];
     for (let i = 0; i < arrInput.length; i++) {
       if (!product[arrInput[i]]) {
         isCheck = false;
@@ -38,21 +54,125 @@ const ManageProducts = () => {
     return isCheck;
   };
 
-  const handleCreateProduct = (e) => {
+  const handleCreateProduct = async (e) => {
     e.preventDefault();
     let isValid = checkInput();
     if (isValid === true) {
       //call API >> Manage
-      // props.editUser(product);
+      try {
+        let response = await createNewProductService(product);
+        if (response && response.data.errCode !== 0) {
+          alert(response.data.errMessage);
+        } else {
+          setProduct({
+            id: "",
+            title: "",
+            author: "",
+            publisher: "",
+            priceOld: "",
+            priceNew: "",
+            desc: "",
+
+            categoryId: "",
+          });
+          setUrlImage("");
+          alert(response.data.errMessage);
+          getAllProduct();
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
-  useEffect(() => {
-    // let copyUser = { ...props.currentUser };
-    // setData({ ...copyUser });
-  }, []);
-  console.log("product: ", product);
+  // get All product
+  const getAllProduct = async () => {
+    await getAllProductService("ALL").then((res) => {
+      if (res && res.data.errCode === 0) {
+        setListProduct(res.data.products);
+      }
+    });
+  };
 
+  useEffect(() => {
+    getAllProduct();
+  }, []);
+
+  const handleClearInputEdit = (e) => {
+    e.preventDefault();
+    setProduct({
+      id: "",
+      title: "",
+      author: "",
+      publisher: "",
+      priceOld: "",
+      priceNew: "",
+      desc: "",
+
+      categoryId: "",
+    });
+    setIsCreate(true);
+  };
+
+  const handleDeleteProduct = async (product) => {
+    try {
+      let res = await deleteProductService(product.id);
+      if (res && res.data.errCode === 0) {
+        getAllProduct();
+      } else {
+        alert(res.data.errMessage);
+      }
+      // }
+    } catch (e) {
+      console.log(e);
+    }
+    console.log("Data: ", product.id);
+  };
+
+  const handleShowEditProduct = (data) => {
+    const copyData = { ...data };
+    setProduct({ ...copyData });
+    setIsCreate(false);
+  };
+
+  const handleSaveEditProduct = async (e) => {
+    e.preventDefault();
+    try {
+      let res = await editProductService(product);
+      if (res && res.data.errCode !== 0) {
+        alert(res.data.errMessage);
+      } else {
+        setProduct({
+          id: "",
+          title: "",
+          author: "",
+          publisher: "",
+          priceOld: "",
+          priceNew: "",
+          desc: "",
+
+          categoryId: "",
+        });
+        setUrlImage("");
+        alert(res.data.errMessage);
+        setIsCreate(true);
+
+        getAllProduct();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleImage = (e) => {
+    let data = e.target.files;
+    let file = data[0];
+    if (file) {
+      let objectUrl = URL.createObjectURL(file);
+      setUrlImage(objectUrl);
+      setProduct({ ...product, image: `/assets/images/${file.name}` });
+    }
+  };
   return (
     <LayoutSystem>
       <div>
@@ -66,6 +186,7 @@ const ManageProducts = () => {
 
           <div className="form-row mt-3">
             <div className="form-group col-md-6">
+              <label>Title:</label>
               <input
                 type="text"
                 className="form-control shadow-sm"
@@ -77,6 +198,7 @@ const ManageProducts = () => {
             </div>
 
             <div className="form-group col-md-3">
+              <label>Author:</label>
               <input
                 type="text"
                 className="form-control shadow-sm"
@@ -87,6 +209,8 @@ const ManageProducts = () => {
               />
             </div>
             <div className="form-group col-md-3">
+              <label>Publisher:</label>
+
               <input
                 type="text"
                 className="form-control shadow-sm"
@@ -99,6 +223,8 @@ const ManageProducts = () => {
           </div>
           <div className="form-row">
             <div className="form-group col-md-3">
+              <label>Price old:</label>
+
               <input
                 type="text"
                 className="form-control shadow-sm"
@@ -110,6 +236,8 @@ const ManageProducts = () => {
             </div>
 
             <div className="form-group col-md-3">
+              <label>Price new:</label>
+
               <input
                 type="text"
                 className="form-control shadow-sm"
@@ -120,22 +248,10 @@ const ManageProducts = () => {
               />
             </div>
             <div className="form-group col-md-3">
-              <input
-                type="file"
-                className="form-control shadow-sm cursor-p"
-                name="image"
-                accept=".png, .jpg, .webp"
-                value={product.image}
-                onChange={(e) => handleInput(e)}
-              />
-              {/* <label class="custom-file-label" for="customFile">
-                Choose file
-              </label> */}
-            </div>
+              <label>Category:</label>
 
-            <div className="form-group col-md-3">
               <select
-                defaultValue={product.roleId}
+                defaultValue="C4"
                 onChange={(e) => handleInput(e)}
                 name="categoryId"
                 className="form-control"
@@ -146,11 +262,33 @@ const ManageProducts = () => {
                 <option value="C4">Tiếng anh</option>
               </select>
             </div>
+            <div className="form-group col-md-3">
+              <label>Image:</label>
+              <br />
+
+              <input
+                hidden
+                type="file"
+                id="image-product"
+                className="form-control shadow-sm"
+                name="image"
+                accept=".png, .jpg, .webp"
+                // value={product.image}
+                onChange={(e) => handleImage(e)}
+              />
+              <label className="lable-up-image" htmlFor="image-product">
+                Tải ảnh
+                <i className="bi bi-file-earmark-arrow-up-fill"></i>
+              </label>
+              {product.image}
+            </div>
           </div>
           <div className="form-row">
-            <div className="form-group col-md-12">
+            <div className="form-group col-md-9">
+              <label>Description:</label>
+
               <textarea
-                rows="5"
+                rows="8"
                 // cols="50"
                 type="text"
                 className="form-control shadow-sm"
@@ -160,15 +298,49 @@ const ManageProducts = () => {
                 onChange={(e) => handleInput(e)}
               />
             </div>
+            <div
+              className="preview-image form-group col-md-3"
+              style={{ backgroundImage: `url(${urlImage})` }}
+              onClick={() => setIsOpen(true)}
+            >
+              {console.log(urlImage)}
+              {isOpen === true && (
+                <Lightbox
+                  mainSrc={urlImage}
+                  // onCloseRequest={() => setIsOpen(false)}
+                />
+              )}
+            </div>
           </div>
-          <button
-            style={{ padding: "5px 25px" }}
-            type="submit"
-            className="hover-web btn-modal mb-3"
-            onClick={(e) => handleCreateProduct(e)}
-          >
-            Create
-          </button>
+          {isCreate ? (
+            <button
+              style={{ padding: "5px 25px" }}
+              type="submit"
+              className="hover-web btn-modal mb-3"
+              onClick={(e) => handleCreateProduct(e)}
+            >
+              Create
+            </button>
+          ) : (
+            <>
+              <button
+                style={{ padding: "5px 25px" }}
+                type="submit"
+                className="hover-web border rounded mb-3"
+                onClick={(e) => handleClearInputEdit(e)}
+              >
+                Clear
+              </button>
+              <button
+                style={{ padding: "5px 25px" }}
+                type="submit"
+                className="hover-web btn-modal mb-3 ml-3"
+                onClick={(e) => handleSaveEditProduct(e)}
+              >
+                Save
+              </button>
+            </>
+          )}
         </form>
       </div>
 
@@ -187,31 +359,47 @@ const ManageProducts = () => {
               <th>Action</th>
             </tr>
 
-            {/* {listUser.map((item) => {
+            {listProduct?.map((item) => {
+              let category = "";
+              if (item.categoryId === "C1") {
+                category = "Marketing - bán hàng";
+              } else if (item.categoryId === "C2") {
+                category = "Tâm lý - kỹ năng";
+              } else if (item.categoryId === "C3") {
+                category = "Tiểu thuyết";
+              } else if (item.categoryId === "C4") {
+                category = "Tiếng anh";
+              } else {
+                category = "Not category";
+              }
+
               return (
                 <tr key={item.id}>
-                  <td>{item.email}</td>
-                  <td>{item.fullName}</td>
-                  <td>{item.address}</td>
-                  <td>{item.phoneNumber}</td>
+                  <td>{item.title}</td>
+                  <td>{item.author}</td>
+                  <td>{item.publisher}</td>
+                  <td>{item.priceOld}</td>
+                  <td>{item.priceNew}</td>
+                  <td>{item.image}</td>
+                  <td>{category}</td>
                   <td>
                     <button
-                      className="btn-edit "
-                      onClick={() => handleShowEdit(item)}
+                      className="btn-edit"
+                      onClick={() => handleShowEditProduct(item)}
                     >
                       <i className="bi bi-pencil"></i>
                     </button>
 
                     <button
                       className="btn-delete"
-                      onClick={() => handleDeleteUser(item)}
+                      onClick={() => handleDeleteProduct(item)}
                     >
                       <i className="bi bi-trash"></i>
                     </button>
                   </td>
                 </tr>
               );
-            })} */}
+            })}
           </tbody>
         </table>
       </div>

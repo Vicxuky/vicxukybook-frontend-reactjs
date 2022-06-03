@@ -1,7 +1,7 @@
 import Slider from "react-slick";
 import Cardproduct from "../Cardproduct";
 
-const SliderMktbanHang = () => {
+const SliderMktbanHang = (props) => {
   const settings = {
     dots: true,
     infinite: false,
@@ -36,81 +36,24 @@ const SliderMktbanHang = () => {
       },
     ],
   };
+  console.log("Props: ", props);
   return (
     <div className="container-fruid pr-3 mt-3">
       <Slider {...settings}>
-        <div>
-          <Cardproduct
-            width="13.6rem"
-            image="/assets/images/sach-hoc-tieng-anh/30-chu-de-tu-vung-tieng-anh.jpg"
-            title="Marketing căn bản"
-            desc="123"
-          />
-        </div>
-        <div>
-          <Cardproduct
-            width="13.6rem"
-            image="/assets/images/sach-hoc-tieng-anh/30-chu-de-tu-vung-tieng-anh.jpg"
-            title="Marketing căn bản"
-            desc="123"
-          />
-        </div>
-        <div>
-          <Cardproduct
-            width="13.6rem"
-            image="/assets/images/sach-hoc-tieng-anh/30-chu-de-tu-vung-tieng-anh.jpg"
-            title="Marketing căn bản"
-            desc="123"
-          />
-        </div>
-        <div>
-          <Cardproduct
-            width="13.6rem"
-            image="/assets/images/sach-hoc-tieng-anh/30-chu-de-tu-vung-tieng-anh.jpg"
-            title="Marketing căn bản"
-            desc="123"
-          />
-        </div>
-        <div>
-          <Cardproduct
-            width="13.6rem"
-            image="/assets/images/sach-hoc-tieng-anh/30-chu-de-tu-vung-tieng-anh.jpg"
-            title="Marketing căn bản"
-            desc="123"
-          />
-        </div>
-        <div>
-          <Cardproduct
-            width="13.6rem"
-            image="/assets/images/sach-hoc-tieng-anh/30-chu-de-tu-vung-tieng-anh.jpg"
-            title="Marketing căn bản"
-            desc="123"
-          />
-        </div>
-        <div>
-          <Cardproduct
-            width="13.6rem"
-            image="/assets/images/sach-hoc-tieng-anh/30-chu-de-tu-vung-tieng-anh.jpg"
-            title="Marketing căn bản"
-            desc="123"
-          />
-        </div>
-        <div>
-          <Cardproduct
-            width="13.6rem"
-            image="/assets/images/sach-hoc-tieng-anh/30-chu-de-tu-vung-tieng-anh.jpg"
-            title="Marketing căn bản"
-            desc="123"
-          />
-        </div>
-        <div>
-          <Cardproduct
-            width="13.6rem"
-            image="/assets/images/sach-hoc-tieng-anh/30-chu-de-tu-vung-tieng-anh.jpg"
-            title="Marketing căn bản"
-            desc="123"
-          />
-        </div>
+        {props.listProduct
+          .filter((item) => item.categoryId === "C1")
+          .map((item) => {
+            return (
+              <div>
+                <Cardproduct
+                  width="13.6rem"
+                  image={item.image}
+                  title={item.title}
+                  price={item.priceNew}
+                />
+              </div>
+            );
+          })}
       </Slider>
     </div>
   );
