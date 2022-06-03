@@ -36,7 +36,6 @@ const SliderMktbanHang = (props) => {
       },
     ],
   };
-  console.log("Props: ", props);
   return (
     <div className="container-fruid pr-3 mt-3">
       <Slider {...settings}>
@@ -44,7 +43,7 @@ const SliderMktbanHang = (props) => {
           .filter((item) => item.categoryId === "C1")
           .map((item) => {
             return (
-              <div>
+              <div key={item.id}>
                 <Cardproduct
                   width="13.6rem"
                   image={item.image}

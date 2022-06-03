@@ -46,7 +46,7 @@ const SliderTieuThuyet = (props) => {
           .filter((item) => item.categoryId === "C3")
           .map((item) => {
             return (
-              <div>
+              <div key={item.id}>
                 <Cardproduct
                   width="13.6rem"
                   image={item.image}

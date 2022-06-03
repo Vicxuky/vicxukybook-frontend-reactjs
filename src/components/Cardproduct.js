@@ -1,6 +1,15 @@
 import { Card, Button } from "react-bootstrap";
 import "./Cardproduct.scss";
 const Cardproduct = (props) => {
+  // format price
+  function moneyFormat(price, sign = " đ") {
+    const pieces = parseFloat(price).toFixed(2).split("");
+    let ii = pieces.length - 3;
+    while ((ii -= 3) > 0) {
+      pieces.splice(ii, 0, ",");
+    }
+    return pieces.join("") + sign;
+  }
   return (
     <>
       <Card
@@ -8,11 +17,6 @@ const Cardproduct = (props) => {
         style={{
           //   // width: "13.6rem",
           width: props.width,
-
-          //   marginTop: "10px",
-          //   paddingTop: "10px",
-          //   marginBottom: "8px",
-          //   marginLeft: "0px",
         }}
       >
         <Card.Img
@@ -22,9 +26,9 @@ const Cardproduct = (props) => {
         />
         <Card.Body>
           <Card.Title>
-            <h2>{props.title}</h2>
+            <h3>{props.title}</h3>
           </Card.Title>
-          <Card.Text>{props.price} đ</Card.Text>
+          <Card.Text>{moneyFormat(props.price)}</Card.Text>
         </Card.Body>
         <Button
           variant="warning"

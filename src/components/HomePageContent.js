@@ -78,7 +78,7 @@ const HomePageContent = () => {
 
       {/* Category product */}
       <div className="container text-center category mt-3 ">
-        <h3 className=" pt-3">Danh Mục Sản Phẩm:</h3>
+        <h2 className=" pt-3">Danh Mục Sản Phẩm:</h2>
         <div className=" row mt-3 mb-3">
           <div className="col-lg-3 category-items">
             <img alt="123" src={"/assets/images/marketing-can-ban.jpg"} />
@@ -106,9 +106,9 @@ const HomePageContent = () => {
       {/* marketing -ban hang */}
       <div className="container-fruid category-products mt-3 pl-3 ">
         <div className="d-flex justify-content-between title-category p-0">
-          <h3 className="pt-3 pl-3 ">
+          <h2 className="pt-3 pl-3 ">
             <Link to="/products">Marketing - bán hàng:</Link>
-          </h3>
+          </h2>
           <span className="pt-3 pr-3">
             <Link to="/products">Xem tất cả..</Link>
           </span>
@@ -118,7 +118,7 @@ const HomePageContent = () => {
       {/* tam ly ky nang song */}
       <div className="container-fruid category-products mt-5 mr-3 ml-3 pl-3">
         <div className="row title-category">
-          <h3 className="pt-3 pl-3">Tâm lý - Kỹ năng</h3>
+          <h2 className="pt-3 pl-3">Tâm lý - Kỹ năng</h2>
         </div>
         <div className="row">
           <div className="col-lg-4 p-0 img-banner2">
@@ -131,13 +131,15 @@ const HomePageContent = () => {
             <div className="d-flex flex-wrap justify-content-around">
               {listProduct
                 .filter((item) => item.categoryId === "C2")
+                .slice(0, 4)
                 .map((item) => {
                   return (
                     <Card2
                       // width="10.5rem"
+                      key={item.id}
                       image={item.image}
                       title={item.title}
-                      price={item.price}
+                      price={item.priceNew}
                     />
                   );
                 })}
@@ -152,7 +154,7 @@ const HomePageContent = () => {
       {/* Tieu thuyet */}
       <div className="container-fruid category-products mt-5 pl-3">
         <div className="d-flex justify-content-between title-category p-0">
-          <h3 className="pt-3 pl-3 ">Tiểu thuyết</h3>
+          <h2 className="pt-3 pl-3 ">Tiểu thuyết</h2>
           <span className="pt-3 pr-3">
             <Link to="/products">Xem tất cả..</Link>
           </span>
@@ -164,7 +166,7 @@ const HomePageContent = () => {
       {/* sach hoc tieng anh */}
       <div className="container-fruid category-products mt-5 mr-3 ml-3 pl-3">
         <div className="row title-category">
-          <h3 className="pt-3 pl-3">Sách học tiếng anh</h3>
+          <h2 className="pt-3 pl-3">Sách học tiếng anh</h2>
         </div>
         <div className="row">
           <div className="col-lg-4 p-0 img-banner2">
@@ -181,9 +183,10 @@ const HomePageContent = () => {
                 return (
                   <Card2
                     // width="10.5rem"
+                    key={item.id}
                     image={item.image}
                     title={item.title}
-                    price={item.price}
+                    price={item.priceNew}
                   />
                 );
               })}
