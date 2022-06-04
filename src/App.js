@@ -22,12 +22,12 @@ function App() {
         <Route path="/about" element={<About />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/review" element={<Review />}></Route>
-        <Route path="/products" element={<Products />}></Route>
+        <Route path="/products" exact element={<Products />}></Route>
         <Route path="/product/:id" element={<ProductDetail />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
 
         <Route path="/system/*" element={<System />}></Route>
-        <Route path="/*" element={<Default />}></Route>
+        <Route path="*" element={<Default />}></Route>
       </Routes>
     </BrowserRouter>
   );

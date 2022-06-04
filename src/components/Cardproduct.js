@@ -1,6 +1,8 @@
 import { Card, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import "./Cardproduct.scss";
 const Cardproduct = (props) => {
+  const navigate = useNavigate();
   // format price
   function moneyFormat(price, sign = " đ") {
     const pieces = parseFloat(price).toFixed(2).split("");
@@ -10,6 +12,11 @@ const Cardproduct = (props) => {
     }
     return pieces.join("") + sign;
   }
+
+  const handleProductDetail = () => {
+    navigate(`/product/${props.id}`);
+  };
+
   return (
     <>
       <Card
@@ -20,19 +27,23 @@ const Cardproduct = (props) => {
         }}
       >
         <Card.Img
-          className="img-cardproduct"
+          className="img-cardproduct cursor-p"
           variant="center"
           src={props.image}
+          onClick={handleProductDetail}
         />
         <Card.Body>
           <Card.Title>
-            <h3>{props.title}</h3>
+            <h3 className="cursor-p" onClick={handleProductDetail}>
+              {props.title}
+            </h3>
           </Card.Title>
           <Card.Text>{moneyFormat(props.price)}</Card.Text>
         </Card.Body>
         <Button
           variant="warning"
           className="btn-block text-light btn-cardproduct"
+          onClick={handleProductDetail}
         >
           XEM NGAY
         </Button>

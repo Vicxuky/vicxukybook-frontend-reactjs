@@ -13,7 +13,7 @@ const System = () => {
   const user = useSelector((state) => state.auth.login.currentUser);
   // const user = 1;
   // checkUser = user && user.token;
-  return user ? (
+  return user && user.user.roleId === "R1" ? (
     <Routes>
       <Route path="/" element={<LayoutSystem />}></Route>
       <Route path="/manage/users" element={<ManageUsers />}></Route>
