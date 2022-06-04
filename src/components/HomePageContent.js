@@ -194,6 +194,7 @@ const HomePageContent = () => {
           <div className="col-lg-8 p-0 d-flex flex-wrap justify-content-around">
             {listProduct
               .filter((item) => item.categoryId === "C4")
+              .slice(0, 4)
               .map((item) => {
                 return (
                   <Card2

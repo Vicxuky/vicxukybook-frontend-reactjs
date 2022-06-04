@@ -12,6 +12,7 @@ import { logOutUser } from "../services/userService";
 
 const NarbarMenu = () => {
   const user = useSelector((state) => state.auth.login.currentUser);
+  const cart = useSelector((state) => state.cart.value);
 
   // const accessToken = user?.user.accessToken;
   const id = user?.user.id;
@@ -103,6 +104,7 @@ const NarbarMenu = () => {
             <Nav.Link as={Link} to="/cart">
               Giỏ Hàng
               <i className="bi bi-cart"></i>
+              {cart.length}
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

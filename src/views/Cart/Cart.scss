@@ -1,0 +1,47 @@
+.cart{
+    .th-cart{
+        border-top:2px solid #ddd;
+        border-left:2px solid #ddd;
+        border-right:2px solid #ddd;
+        font-style: italic;
+
+    }
+    .list-product{
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        padding-top: 10px;
+        &:hover{
+            background-color: rgb(247, 199, 199);
+            color: white;
+        }
+        .btn-delete{
+            border: none;
+            outline: none;
+            color: red;
+            margin-left: 30px;
+            
+        }
+    }
+    .total{
+        border-bottom:2px solid #ddd;
+        border-left:2px solid #ddd;
+        border-right:2px solid #ddd;
+        .total-price{
+            color: red;
+
+        }
+        
+
+    }
+    .payment{
+        .btn-payment{
+
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            padding: 8px 10px;
+            background-color: rgb(32, 165, 14);
+            color: white;
+        }
+    }
+}

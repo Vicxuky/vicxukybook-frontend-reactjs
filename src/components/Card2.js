@@ -1,17 +1,9 @@
 import "./Card2.scss";
 import { useNavigate } from "react-router-dom";
+import { formatCashVN } from "../functionsStore";
 
 const Card2 = (props) => {
   const navigate = useNavigate();
-  // format price
-  function moneyFormat(price, sign = " đ") {
-    const pieces = parseFloat(price).toFixed(2).split("");
-    let ii = pieces.length - 3;
-    while ((ii -= 3) > 0) {
-      pieces.splice(ii, 0, ",");
-    }
-    return pieces.join("") + sign;
-  }
 
   const handleProductDetail = () => {
     navigate(`/product/${props.id}?title=${props.url}`);
@@ -31,7 +23,7 @@ const Card2 = (props) => {
         <div className="card-tow-title">
           <h3 onClick={handleProductDetail}>{props.title}</h3>
         </div>
-        <div className="card-tow-price">{moneyFormat(props.price)}</div>
+        <div className="card-tow-price">{formatCashVN(props.price)}</div>
       </div>
     </div>
   );

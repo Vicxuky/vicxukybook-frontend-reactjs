@@ -1,17 +1,9 @@
 import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./Cardproduct.scss";
+import { formatCashVN } from "../functionsStore";
 const Cardproduct = (props) => {
   const navigate = useNavigate();
-  // format price
-  function moneyFormat(price, sign = " đ") {
-    const pieces = parseFloat(price).toFixed(2).split("");
-    let ii = pieces.length - 3;
-    while ((ii -= 3) > 0) {
-      pieces.splice(ii, 0, ",");
-    }
-    return pieces.join("") + sign;
-  }
 
   const handleProductDetail = () => {
     navigate(`/product/${props.id}`);
@@ -24,12 +16,14 @@ const Cardproduct = (props) => {
         style={{
           //   // width: "13.6rem",
           width: props.width,
+          height: "400px",
         }}
       >
         <Card.Img
           className="img-cardproduct cursor-p"
           variant="center"
           src={props.image}
+          height="200px"
           onClick={handleProductDetail}
         />
         <Card.Body>
@@ -38,8 +32,9 @@ const Cardproduct = (props) => {
               {props.title}
             </h3>
           </Card.Title>
-          <Card.Text>{moneyFormat(props.price)}</Card.Text>
         </Card.Body>
+        <Card.Text className="ml-3">{formatCashVN(props.price)}</Card.Text>
+
         <Button
           variant="warning"
           className="btn-block text-light btn-cardproduct"

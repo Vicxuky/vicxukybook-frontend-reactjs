@@ -3,12 +3,51 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getAllProductService } from "../../services/productService";
+import { addProductCart } from "../../redux/cartSlice";
+
 import Layout from "../../components/Layout";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProductDetail = () => {
+  const dispatch = useDispatch();
+  const productsCart = useSelector((state) => state.cart.value);
+
   let { id } = useParams();
   const [quantity, setQuantity] = useState(1);
-  const [productDetail, setProductDetail] = useState([]);
+  const [productDetail, setProductDetail] = useState({});
+  const checkIdCart = () => {
+    let idd = parseInt(id);
+    if (productsCart.length === 0) {
+      return false;
+    } else {
+      for (let i = 0; i < productsCart.length; i++) {
+        if (productsCart[i].id === idd) {
+          return true;
+        }
+      }
+      return false;
+    }
+  };
+  const handleAddToCart = () => {
+    console.log("Cart", productsCart);
+    console.log(checkIdCart());
+    let checkKQ = checkIdCart();
+
+    if (checkKQ === true) {
+      console.log("San pham da ton tai");
+    }
+    if (checkKQ === false) {
+      console.log("add to cart");
+      dispatch(
+        addProductCart({
+          id: parseInt(id),
+          title: productDetail.title,
+          price: productDetail.priceNew,
+          quantity: quantity,
+        })
+      );
+    }
+  };
 
   const percent = () => {
     let priceNew = productDetail.priceNew;
@@ -49,7 +88,6 @@ const ProductDetail = () => {
   useEffect(() => {
     getProductDetail();
   }, []);
-  console.log("props: ", useParams());
   return (
     <Layout>
       <div className="container shadow rounded mt-3">
@@ -94,7 +132,10 @@ const ProductDetail = () => {
               </div>
             </div>
             <div className="buy-product mt-5">
-              <button className="add-to-cart shadow hover-web">
+              <button
+                className="add-to-cart shadow hover-web"
+                onClick={handleAddToCart}
+              >
                 <i className="bi bi-cart"></i>
                 &nbsp;Thêm vào giỏ hàng
               </button>
