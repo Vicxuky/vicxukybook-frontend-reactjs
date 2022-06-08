@@ -14,7 +14,7 @@ const formatCashVN = (str, sign = " đ") => {
     .reverse()
 
     .reduce((prev, next, index) => {
-      return (index % 3 ? next : next + ",") + prev;
+      return (index % 3 ? next : next + ".") + prev;
     })
     .concat(sign);
 };

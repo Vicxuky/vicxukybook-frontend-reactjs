@@ -41,6 +41,7 @@ const ProductDetail = () => {
       dispatch(
         addProductCart({
           id: parseInt(id),
+          image: productDetail.image,
           title: productDetail.title,
           price: productDetail.priceNew,
           quantity: quantity,
@@ -139,9 +140,9 @@ const ProductDetail = () => {
                 <i className="bi bi-cart"></i>
                 &nbsp;Thêm vào giỏ hàng
               </button>
-              <button className="buy-now shadow hover-web">
-                <Link to="/cart">Mua Ngay</Link>
-              </button>
+              <Link to="/cart">
+                <button className="buy-now shadow hover-web">Mua Ngay</button>
+              </Link>
             </div>
           </div>
         </div>

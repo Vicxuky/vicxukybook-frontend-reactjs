@@ -11,6 +11,7 @@ import About from "./views/About/About";
 import Review from "./views/Review/Review";
 import Default from "./views/Default/Default";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
+import Checkout from "./views/Cart/Checkout";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/products" exact element={<Products />}></Route>
         <Route path="/product/:id" element={<ProductDetail />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
+        <Route path="/check-out" element={<Checkout />}></Route>
 
         <Route path="/system/*" element={<System />}></Route>
         <Route path="*" element={<Default />}></Route>

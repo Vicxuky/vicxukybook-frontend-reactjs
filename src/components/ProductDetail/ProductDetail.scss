@@ -60,12 +60,21 @@
         border-radius: 10px;
         background-color: white;
         font-weight: 500;
+        color: white;
 
     }
     .add-to-cart{
         border: 2px solid rgb(214, 7, 7);
         padding: 5px 5px;
         color: rgb(218, 11, 11);
+        &:hover{
+            background-color: rgb(214, 73, 104);
+            color: white;
+            padding: 6px 6px;
+        // border: 3px solid rgb(214, 7, 7);
+        transition: 0.4s;
+
+        }
     }
     .buy-now{
         margin-left: 35px;

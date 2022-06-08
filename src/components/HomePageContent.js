@@ -47,43 +47,25 @@ const HomePageContent = () => {
           </div>
           <div className="col-12 col-lg-4 p-0 ">
             <div className="row mr-0 ml-0  img-banner1">
-              <img
-                alt="123"
-                src="https://cdn0.fahasa.com/media/wysiwyg/Thang-05-2022/fsale_bigsale2_392x156.jpg"
-              />
+              <img alt="123" src="/assets/images/banner/fsale12-392x156.jpg" />
             </div>
             <div className="row pt-1 mr-0 ml-0  img-banner1">
-              <img
-                alt="123"
-                src="https://cdn0.fahasa.com/media/wysiwyg/Thang-05-2022/fsale_bigsale2_392x156.jpg"
-              />
+              <img alt="123" src="/assets/images/banner/fsale12-392x156.jpg" />
             </div>
           </div>
         </div>
         <div className="row pt-1 pl-3">
           <div className="col-lg-3 pl-0 pr-1 img-banner2 ">
-            <img
-              alt="123"
-              src="https://cdn0.fahasa.com/media/wysiwyg/Thang-05-2022/coupontesst_bigsale02_310x210.jpg"
-            />
+            <img alt="123" src="/assets/images/banner/fsale-21-310x210.jpg" />
           </div>
           <div className="col-lg-3 pl-0 pr-1 img-banner2 ">
-            <img
-              alt="123"
-              src="https://cdn0.fahasa.com/media/wysiwyg/Thang-05-2022/salelon_bigsale2_310x210.jpg"
-            />
+            <img alt="123" src="/assets/images/banner/fsale-22-310x210.jpg" />
           </div>
           <div className="col-lg-3 pl-0 pr-1 img-banner2 ">
-            <img
-              alt="123"
-              src="https://cdn0.fahasa.com/media/wysiwyg/Thang-05-2022/coupontesst_bigsale02_310x210.jpg"
-            />
+            <img alt="123" src="/assets/images/banner/fsale-21-310x210.jpg" />
           </div>
           <div className="col-lg-3 p-0 img-banner2 ">
-            <img
-              alt="123"
-              src="https://cdn0.fahasa.com/media/wysiwyg/Thang-05-2022/salelon_bigsale2_310x210.jpg"
-            />
+            <img alt="123" src="/assets/images/banner/fsale-22-310x210.jpg" />
           </div>
         </div>
       </div>
@@ -135,10 +117,7 @@ const HomePageContent = () => {
         </div>
         <div className="row">
           <div className="col-lg-4 p-0 img-banner2">
-            <img
-              alt="123"
-              src="https://cdn0.fahasa.com/media/wysiwyg/Thang-05-2022/coupontesst_bigsale02_310x210.jpg"
-            />
+            <img alt="123" src="/assets/images/banner/fsale-21-310x210.jpg" />
           </div>
           <div className="col-lg-8 p-0">
             <div className="d-flex flex-wrap justify-content-around">
@@ -185,10 +164,7 @@ const HomePageContent = () => {
         </div>
         <div className="row">
           <div className="col-lg-4 p-0 img-banner2">
-            <img
-              alt="123"
-              src="https://cdn0.fahasa.com/media/wysiwyg/Thang-05-2022/coupontesst_bigsale02_310x210.jpg"
-            />
+            <img alt="123" src="/assets/images/banner/fsale-21-310x210.jpg" />
           </div>
           {/* <div className="col-lg-8 p-0"> */}
           <div className="col-lg-8 p-0 d-flex flex-wrap justify-content-around">

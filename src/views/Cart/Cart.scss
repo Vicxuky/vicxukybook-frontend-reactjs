@@ -13,12 +13,56 @@
         &:hover{
             background-color: rgb(247, 199, 199);
             color: white;
+            transition: .5s;
         }
+        .form-quantity{
+            height: fit-content;
+            width: fit-content;
+            display: flex;
+            border-radius: 5px;
+            padding: 0;
+            .btn-update-dash,
+            .btn-update-plus{
+                border: none;
+                background-color: #ddd;
+                outline: none;
+                font-size: 23px;
+                height: 30px;
+                padding: 0 5px;
+                &:hover{
+                    background-color: rgb(241, 238, 238);
+                    transition: 0.5s;
+                }
+            }
+            .btn-update-dash{
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+               
+            }
+            .btn-update-plus{
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+            .i-quantity{
+                height: 30px;
+                width: 30%;
+                border: none;
+                outline: none;
+                border-top: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                text-align: center;
+            }
+
+        }
+        
         .btn-delete{
             border: none;
             outline: none;
             color: red;
             margin-left: 30px;
+            span{
+                font-size: 16px;
+            }
             
         }
     }
@@ -26,7 +70,9 @@
         border-bottom:2px solid #ddd;
         border-left:2px solid #ddd;
         border-right:2px solid #ddd;
+        padding: 10px 0;
         .total-price{
+            font-weight: 600;
             color: red;
 
         }

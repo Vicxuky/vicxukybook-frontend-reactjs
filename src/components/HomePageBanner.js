@@ -16,37 +16,37 @@ const HomePageBanner = () => {
         <Slider {...settings}>
           <div>
             <img
-              src="https://cdn0.fahasa.com/media/magentothem/banner7/TTN_840x320.jpg"
+              src="/assets/images/banner/banner11-840x320.jpg"
               alt="Third slide"
             />
           </div>
           <div>
             <img
-              src="https://cdn0.fahasa.com/media/magentothem/banner7/TTN_840x320.jpg"
+              src="/assets/images/banner/banner11-840x320.jpg"
               alt="Third slide"
             />
           </div>
           <div>
             <img
-              src="https://cdn0.fahasa.com/media/magentothem/banner7/TTN_840x320.jpg"
+              src="/assets/images/banner/banner11-840x320.jpg"
               alt="Third slide"
             />
           </div>
           <div>
             <img
-              src="https://cdn0.fahasa.com/media/magentothem/banner7/TTN_840x320.jpg"
+              src="/assets/images/banner/banner11-840x320.jpg"
               alt="Third slide"
             />
           </div>
           <div>
             <img
-              src="https://cdn0.fahasa.com/media/magentothem/banner7/TTN_840x320.jpg"
+              src="/assets/images/banner/banner11-840x320.jpg"
               alt="Third slide"
             />
           </div>
           <div>
             <img
-              src="https://cdn0.fahasa.com/media/magentothem/banner7/TTN_840x320.jpg"
+              src="/assets/images/banner/banner11-840x320.jpg"
               alt="Third slide"
             />
           </div>
