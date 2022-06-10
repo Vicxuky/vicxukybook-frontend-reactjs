@@ -83,7 +83,6 @@ const Manage = () => {
     } catch (e) {
       console.log(e);
     }
-    console.log("Data: ", user.id);
   };
 
   return (

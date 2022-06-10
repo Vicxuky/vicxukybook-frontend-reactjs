@@ -2,16 +2,39 @@ import Layout from "../../components/Layout";
 import { useSelector } from "react-redux";
 import { formatCashVN } from "../../functionsStore";
 import { useState } from "react";
+import { postOrderService } from "../../services/orderService";
 
 const Checkout = () => {
   const productsCart = useSelector((state) => state.cart.value);
+  // total cart
+  const totalPriceCart = productsCart.reduce((total, item) => {
+    return total + item.price * item.quantity;
+  }, 0);
+
+  const statusOrder =
+    productsCart.map((item, stt = 0) => {
+      stt += 1;
+      return (
+        stt +
+        ". " +
+        item.title +
+        ": " +
+        formatCashVN(item.price) +
+        " x " +
+        item.quantity +
+        `\n`
+      );
+    }) +
+    "Total: " +
+    totalPriceCart;
+
   const [order, setOrder] = useState({
     fullName: "",
     email: "",
     phoneNumber: "",
     address: "",
     note: "",
-    status: { ...productsCart },
+    status: statusOrder,
   });
 
   const handleInput = (e) => {
@@ -19,11 +42,30 @@ const Checkout = () => {
     setOrder({ ...order, [name]: value });
   };
 
-  // total cart
-  const totalPriceCart = productsCart.reduce((total, item) => {
-    return total + item.price * item.quantity;
-  }, 0);
-  console.log("order: ", order);
+  const handlePostOrder = async (e) => {
+    e.preventDefault();
+    try {
+      if (
+        !order.fullName ||
+        !order.email ||
+        !order.phoneNumber ||
+        !order.address
+      ) {
+        alert("Please complete all information.");
+      } else {
+        let response = await postOrderService(order);
+        if (response && response.data.errCode !== 0) {
+          alert(response.data.errMessage);
+        } else {
+          alert(response.data.errMessage);
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  console.log("order", order);
+
   return (
     <Layout>
       <div className="container">
@@ -129,6 +171,33 @@ const Checkout = () => {
                 onChange={(e) => handleInput(e)}
               />
             </div>
+            <div className="form-group">
+              <textarea
+                name="status"
+                rows="6"
+                type="text"
+                className="form-control"
+                value={statusOrder}
+                // {
+                //   productsCart.map((item, stt = 0) => {
+                //     stt += 1;
+                //     return (
+                //       stt +
+                //       ". " +
+                //       item.title +
+                //       ": " +
+                //       formatCashVN(item.price) +
+                //       " x " +
+                //       item.quantity +
+                //       "<br />"
+                //     );
+                //   }) +
+                //   "Total: " +
+                //   totalPriceCart
+                // }
+                onChange={(e) => handleInput(e)}
+              />
+            </div>
 
             <div className="form-group">
               <div className="form-check">
@@ -142,7 +211,11 @@ const Checkout = () => {
                 </label>
               </div>
             </div>
-            <button type="submit" className="btn btn-primary px-5 mb-1">
+            <button
+              type="submit"
+              className="btn btn-primary px-5 mb-1"
+              onClick={(e) => handlePostOrder(e)}
+            >
               Sent
             </button>
           </form>

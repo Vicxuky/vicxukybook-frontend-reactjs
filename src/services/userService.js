@@ -54,7 +54,6 @@ const signinUser = async (user, dispatch, navigate) => {
 };
 
 const getAllUserService = (inputId) => {
-  // return axios.get(`http://localhost:8000/api/v1/get-all-user?id=${inputId}`);
   return axios.get(
     "http://localhost:8000/api/v1/get-all-user",
     {
