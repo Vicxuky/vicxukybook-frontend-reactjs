@@ -1,0 +1,18 @@
+.card-product{ 
+    margin-top: "10px";
+    padding-top: "10px";
+    margin-bottom: "8px";
+    margin-left: "0px";
+   &:hover{
+       border: none;
+       box-shadow: 1px 1px 5px #6e6269;
+       transition: .1s;
+     }
+     .img-cardproduct{
+         margin-top: 3px;
+     }
+     .btn-cardproduct{
+         border-radius: 15px;
+         margin-bottom: 5px;
+     }
+}

@@ -26,11 +26,17 @@ const HomePageContent = () => {
   };
   // get All product
   const getAllProduct = async () => {
-    await getAllProductService("ALL").then((res) => {
-      if (res && res.data.errCode === 0) {
-        setListProduct(res.data.products);
-      }
-    });
+    // await getAllProductService("ALL")
+    //   .then((res) => {
+    //     if (res && res.data.errCode === 0) {
+    //       setListProduct(res.data.products);
+    //     }
+    //   })
+    //   .catch((e) => alert("err", e));
+    let res = await getAllProductService("ALL");
+    if (res && res.data.errCode === 0) {
+      setListProduct(res.data.products);
+    }
   };
 
   useEffect(() => {
@@ -81,7 +87,7 @@ const HomePageContent = () => {
           </div>
           <div className="col-lg-3 category-items">
             <img alt="111" src={"/assets/images/hieu-ve-trai-tim.jpg"} />
-            <Link to="/products"> Tâm lý - Kỹ năng</Link>
+            <Link to="/products">Tâm lý - Kỹ năng</Link>
           </div>
           <div className="col-lg-3 category-items">
             <img alt="111" src={"/assets/images/mat-biec.jpg"} />

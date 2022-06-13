@@ -24,13 +24,7 @@ const NarbarMenu = () => {
 
   return (
     <>
-      <Navbar
-        collapseOnSelect
-        expand="lg"
-        className="bg-navbar sticky-top"
-        // bg="light"
-        // variant="light"
-      >
+      <Navbar collapseOnSelect expand="lg" className="bg-navbar sticky-top">
         <Navbar.Brand as={Link} to="/">
           VicxukyBook
         </Navbar.Brand>

@@ -18,14 +18,13 @@ const Checkout = () => {
         stt +
         ". " +
         item.title +
-        ": " +
-        formatCashVN(item.price) +
-        " x " +
-        item.quantity +
-        `\n`
+        " | Price: " +
+        item.price +
+        " x Quantity: " +
+        item.quantity
       );
     }) +
-    "Total: " +
+    " | Total: " +
     totalPriceCart;
 
   const [order, setOrder] = useState({

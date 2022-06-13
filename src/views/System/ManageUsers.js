@@ -58,11 +58,10 @@ const Manage = () => {
   };
 
   const getAllUser = async () => {
-    await getAllUserService("ALL").then((res) => {
-      if (res && res.data.errCode === 0) {
-        setListUser(res.data.users);
-      }
-    });
+    let res = await getAllUserService("ALL");
+    if (res && res.data.errCode === 0) {
+      setListUser(res.data.users);
+    }
   };
 
   useEffect(() => {
