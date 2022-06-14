@@ -51,9 +51,24 @@ const Products = () => {
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-    setCurrentItems(productList.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(productList.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, productList]);
+    let productListFilter = productList.filter((item) => {
+      if (search) {
+        return item.title.toLowerCase().includes(search.toLowerCase());
+      }
+      if (category === "C1") {
+        return item.categoryId === "C1";
+      } else if (category === "C2") {
+        return item.categoryId === "C2";
+      } else if (category === "C3") {
+        return item.categoryId === "C3";
+      } else if (category === "C4") {
+        return item.categoryId === "C4";
+      }
+      return 1;
+    });
+    setCurrentItems(productListFilter.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(productListFilter.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, productList, category, search]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % productList.length;
@@ -171,23 +186,23 @@ const Products = () => {
               <hr />
               <div className="product-list mt-1 d-flex flex-wrap justify-content-between">
                 {currentItems
-                  .filter((item) => {
-                    if (search) {
-                      return item.title
-                        .toLowerCase()
-                        .includes(search.toLowerCase());
-                    }
-                    if (category === "C1") {
-                      return item.categoryId === "C1";
-                    } else if (category === "C2") {
-                      return item.categoryId === "C2";
-                    } else if (category === "C3") {
-                      return item.categoryId === "C3";
-                    } else if (category === "C4") {
-                      return item.categoryId === "C4";
-                    }
-                    return 1;
-                  })
+                  // .filter((item) => {
+                  //   if (search) {
+                  //     return item.title
+                  //       .toLowerCase()
+                  //       .includes(search.toLowerCase());
+                  //   }
+                  //   if (category === "C1") {
+                  //     return item.categoryId === "C1";
+                  //   } else if (category === "C2") {
+                  //     return item.categoryId === "C2";
+                  //   } else if (category === "C3") {
+                  //     return item.categoryId === "C3";
+                  //   } else if (category === "C4") {
+                  //     return item.categoryId === "C4";
+                  //   }
+                  //   return 1;
+                  // })
                   .sort((a, b) => {
                     if (sort === "low") {
                       return a.priceNew - b.priceNew;
@@ -236,3 +251,4 @@ const Products = () => {
   );
 };
 export default Products;
+// https://stackoverflow.com/questions/70946170/how-to-implement-pagination-with-filter-in-react fixNavigated

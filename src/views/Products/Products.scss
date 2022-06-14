@@ -67,13 +67,13 @@
         transition: 0.5s;
 
         &:hover{
-            background-color: red;
+            background-color: rgb(204, 105, 105);
             color: white;
 
         }
     }
     .active{
-        background-color: red;
+        background-color: rgb(209, 13, 13);
         color: white;
     }
 }
