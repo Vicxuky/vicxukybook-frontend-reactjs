@@ -1,13 +1,22 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 import Layout from "../../components/Layout";
+import { deleteSearchStore } from "../../redux/searchSlice";
 import { viEn } from "../../functionsStore";
 import { getAllProductService } from "../../services/productService";
 import Card3 from "./Card3";
 import "./Products.scss";
+// import PaginatedItems from "../../components/Paginate/Paginate";
+import ReactPaginate from "react-paginate";
 
 const Products = () => {
+  const search = useSelector((state) => state.search.value);
+  const dispatch = useDispatch();
+
   const [productList, setProductList] = useState([]);
+  const [message, setMessage] = useState("All Product:");
 
   const [sort, setSort] = useState("ALL");
   const [category, setCategory] = useState("ALL");
@@ -32,6 +41,28 @@ const Products = () => {
     getAllProduct();
   }, []);
 
+  // Paginated
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+
+  const itemsPerPage = 11;
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+    setCurrentItems(productList.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(productList.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, productList]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % productList.length;
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    setItemOffset(newOffset);
+  };
+
   return (
     <>
       <Layout>
@@ -40,13 +71,52 @@ const Products = () => {
             <div className="col-lg-2 p-0 side-bar shadow">
               <ul>
                 <h2 className="mt-3">Category:</h2>
-                <li className="active" onClick={() => setCategory("C1")}>
+                <li
+                  className="active"
+                  onClick={() => {
+                    dispatch(deleteSearchStore());
+                    setMessage("Sách marketing:");
+                    setCategory("C1");
+                  }}
+                >
                   Sách Marketing
                 </li>
-                <li onClick={() => setCategory("C2")}>Tâm Lý - Kỹ Năng</li>
-                <li onClick={() => setCategory("C3")}>Tiểu Thuyết</li>
-                <li onClick={() => setCategory("C4")}>Sách Học Tiếng Anh</li>
-                <li onClick={() => setCategory("")}>Tất cả sản phẩm</li>
+                <li
+                  onClick={() => {
+                    dispatch(deleteSearchStore());
+                    setMessage("Tâm lý - Kỹ năng:");
+                    setCategory("C2");
+                  }}
+                >
+                  Tâm Lý - Kỹ Năng
+                </li>
+                <li
+                  onClick={() => {
+                    dispatch(deleteSearchStore());
+                    setMessage("Tiểu thuyết:");
+                    setCategory("C3");
+                  }}
+                >
+                  Tiểu Thuyết
+                </li>
+                <li
+                  onClick={() => {
+                    dispatch(deleteSearchStore());
+                    setMessage("Sách học tiếng anh:");
+                    setCategory("C4");
+                  }}
+                >
+                  Sách Học Tiếng Anh
+                </li>
+                <li
+                  onClick={() => {
+                    dispatch(deleteSearchStore());
+                    setMessage("All Product:");
+                    setCategory("");
+                  }}
+                >
+                  Tất cả sản phẩm
+                </li>
               </ul>
               <div className="product-new">
                 <h2>New Books:</h2>
@@ -80,7 +150,7 @@ const Products = () => {
             </div>
             <div className="container-products col-lg-10 p-0">
               <div className="d-flex justify-content-between">
-                <h1 className="mt-3 ml-3">All books:</h1>
+                <h1 className="mt-3 ml-3">{message}</h1>
 
                 <div className="sort mt-3">
                   <label htmlFor="sort">Sort: </label>
@@ -100,8 +170,13 @@ const Products = () => {
 
               <hr />
               <div className="product-list mt-1 d-flex flex-wrap justify-content-between">
-                {productList
+                {currentItems
                   .filter((item) => {
+                    if (search) {
+                      return item.title
+                        .toLowerCase()
+                        .includes(search.toLowerCase());
+                    }
                     if (category === "C1") {
                       return item.categoryId === "C1";
                     } else if (category === "C2") {
@@ -113,7 +188,6 @@ const Products = () => {
                     }
                     return 1;
                   })
-
                   .sort((a, b) => {
                     if (sort === "low") {
                       return a.priceNew - b.priceNew;
@@ -126,10 +200,9 @@ const Products = () => {
                   })
                   .map((item) => {
                     return (
-                      <div className="col-12 col-lg-3 mr-0 mb-5">
+                      <div key={item.id} className="col-12 col-lg-3 mr-0 mb-5">
                         <Card3
                           width="15.5rem"
-                          key={item.id}
                           id={item.id}
                           url={viEn(item.title)}
                           image={item.image}
@@ -141,6 +214,20 @@ const Products = () => {
                     );
                   })}
               </div>
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel="next >"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={5}
+                pageCount={pageCount}
+                previousLabel="< previous"
+                renderOnZeroPageCount={null}
+                containerClassName="pagination"
+                pageLinkClassName="page-num"
+                previousLinkClassName="page-num"
+                nextLinkClassName="page-num"
+                activeLinkClassName="active"
+              />
             </div>
           </div>
         </div>

@@ -130,6 +130,7 @@ const ManageProducts = () => {
   };
 
   const handleShowEditProduct = (data) => {
+    document.documentElement.scrollTop = 0;
     const copyData = { ...data };
     setProduct({ ...copyData });
     setIsCreate(false);
@@ -188,6 +189,7 @@ const ManageProducts = () => {
             <div className="form-group col-md-6">
               <label>Title:</label>
               <input
+                id="edit"
                 type="text"
                 className="form-control shadow-sm"
                 name="title"

@@ -12,6 +12,9 @@ const cartSlice = createSlice({
     deleteProductCart: (state, action) => {
       state.value = state.value.filter((item) => item.id !== action.payload.id);
     },
+    deleteAllProductCart: (state) => {
+      state.value.length = 0;
+    },
     updateQuantityProductCart: (state, action) => {
       state.value.map((item) => {
         if (item.id === action.payload.id) {
@@ -21,12 +24,17 @@ const cartSlice = createSlice({
             item.quantity = action.payload.quantity;
           }
         }
+        return 0;
       });
     },
   },
 });
 
-export const { addProductCart, deleteProductCart, updateQuantityProductCart } =
-  cartSlice.actions;
+export const {
+  addProductCart,
+  deleteProductCart,
+  deleteAllProductCart,
+  updateQuantityProductCart,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

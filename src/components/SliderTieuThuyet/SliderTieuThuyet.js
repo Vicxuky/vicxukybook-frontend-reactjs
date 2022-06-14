@@ -6,7 +6,7 @@ const SliderTieuThuyet = (props) => {
   const settings = {
     dots: true,
     infinite: false,
-    speed: 2000,
+    speed: 500,
     autoplay: true,
     autoplaySpeed: 2000,
     slidesToShow: 5,

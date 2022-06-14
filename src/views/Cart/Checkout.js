@@ -1,10 +1,17 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Modal, Button } from "react-bootstrap";
+
 import Layout from "../../components/Layout";
-import { useSelector } from "react-redux";
 import { formatCashVN } from "../../functionsStore";
-import { useState } from "react";
 import { postOrderService } from "../../services/orderService";
+import { deleteAllProductCart } from "../../redux/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
+  const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const productsCart = useSelector((state) => state.cart.value);
   // total cart
   const totalPriceCart = productsCart.reduce((total, item) => {
@@ -26,7 +33,6 @@ const Checkout = () => {
     }) +
     " | Total: " +
     totalPriceCart;
-
   const [order, setOrder] = useState({
     fullName: "",
     email: "",
@@ -53,18 +59,42 @@ const Checkout = () => {
         alert("Please complete all information.");
       } else {
         let response = await postOrderService(order);
-        if (response && response.data.errCode !== 0) {
-          alert(response.data.errMessage);
-        } else {
-          alert(response.data.errMessage);
+        if (response && response.data.errCode === 0) {
+          setShow(true);
         }
       }
     } catch (e) {
       console.log(e);
     }
   };
-  console.log("order", order);
+  const handleCheck = () => {
+    document.getElementById("btn-sent").disabled = true;
 
+    document.getElementById("check-buy").onclick = function (e) {
+      if (this.checked) {
+        document.getElementById("btn-sent").disabled = false;
+      } else {
+        document.getElementById("btn-sent").disabled = true;
+      }
+    };
+  };
+  const handleClose = (e) => {
+    e.preventDefault();
+
+    setShow(false);
+    setOrder({
+      fullName: "",
+      email: "",
+      phoneNumber: "",
+      address: "",
+      note: "",
+    });
+    dispatch(deleteAllProductCart());
+    navigate("/cart");
+  };
+  useEffect(() => {
+    handleCheck();
+  }, []);
   return (
     <Layout>
       <div className="container">
@@ -118,6 +148,7 @@ const Checkout = () => {
                 type="text"
                 className="form-control"
                 id="inputFullName"
+                value={order.fullName}
                 placeholder="Nguyen Van A.."
                 onChange={(e) => handleInput(e)}
               />
@@ -131,6 +162,7 @@ const Checkout = () => {
                   type="email"
                   className="form-control"
                   id="inputEmail4"
+                  value={order.email}
                   placeholder="abc@gmail.com"
                   onChange={(e) => handleInput(e)}
                 />
@@ -142,6 +174,7 @@ const Checkout = () => {
                   type="text"
                   className="form-control"
                   id="inputPhoneNumber"
+                  value={order.phoneNumber}
                   placeholder="0988888888.."
                   onChange={(e) => handleInput(e)}
                 />
@@ -155,6 +188,7 @@ const Checkout = () => {
                 type="text"
                 className="form-control"
                 id="inputAddress"
+                value={order.address}
                 placeholder="1234 Main St"
                 onChange={(e) => handleInput(e)}
               />
@@ -167,33 +201,7 @@ const Checkout = () => {
                 type="text"
                 className="form-control"
                 id="inputNote"
-                onChange={(e) => handleInput(e)}
-              />
-            </div>
-            <div className="form-group">
-              <textarea
-                name="status"
-                rows="6"
-                type="text"
-                className="form-control"
-                value={statusOrder}
-                // {
-                //   productsCart.map((item, stt = 0) => {
-                //     stt += 1;
-                //     return (
-                //       stt +
-                //       ". " +
-                //       item.title +
-                //       ": " +
-                //       formatCashVN(item.price) +
-                //       " x " +
-                //       item.quantity +
-                //       "<br />"
-                //     );
-                //   }) +
-                //   "Total: " +
-                //   totalPriceCart
-                // }
+                value={order.note}
                 onChange={(e) => handleInput(e)}
               />
             </div>
@@ -203,14 +211,28 @@ const Checkout = () => {
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  id="gridCheck"
+                  id="check-buy"
                 />
-                <label className="form-check-label" htmlFor="gridCheck">
+                <label className="form-check-label" htmlFor="check-buy">
                   Agree to order
                 </label>
               </div>
             </div>
+            {/* modal */}
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header>
+                <Modal.Title>Thông báo</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>Đặt hàng thành công.</Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={(e) => handleClose(e)}>
+                  OK
+                </Button>
+              </Modal.Footer>
+            </Modal>
+            {/* modal */}
             <button
+              id="btn-sent"
               type="submit"
               className="btn btn-primary px-5 mb-1"
               onClick={(e) => handlePostOrder(e)}

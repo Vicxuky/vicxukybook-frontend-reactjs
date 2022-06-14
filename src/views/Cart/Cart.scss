@@ -10,6 +10,9 @@
         border-left: 1px solid #ddd;
         border-right: 1px solid #ddd;
         padding-top: 10px;
+        .click-detail{
+            cursor: pointer;
+        }
         &:hover{
             background-color: rgb(247, 199, 199);
             color: white;

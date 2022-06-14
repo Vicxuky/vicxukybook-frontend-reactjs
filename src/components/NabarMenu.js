@@ -9,10 +9,13 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUser } from "../services/userService";
+import { useState } from "react";
+import { addSearchStore } from "../redux/searchSlice";
 
 const NarbarMenu = () => {
   const user = useSelector((state) => state.auth.login.currentUser);
   const cart = useSelector((state) => state.cart.value);
+  const [searchText, setSearchText] = useState("");
 
   // const accessToken = user?.user.accessToken;
   const id = user?.user.id;
@@ -20,6 +23,14 @@ const NarbarMenu = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     logOutUser(id, dispatch, navigate);
+  };
+  const handleChangeSearch = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const handleSearch = (e) => {
+    dispatch(addSearchStore(searchText.trim()));
+    navigate("/products");
   };
 
   return (
@@ -67,8 +78,14 @@ const NarbarMenu = () => {
                 placeholder="nhà giả kim.."
                 className="mr-2 input-search"
                 aria-label="Search"
+                value={searchText}
+                onChange={(e) => handleChangeSearch(e)}
               />
-              <Button variant="outline-light" className="w-25">
+              <Button
+                variant="outline-light"
+                className="w-25"
+                onClick={handleSearch}
+              >
                 <i className="bi bi-search"></i>
               </Button>
             </Form>

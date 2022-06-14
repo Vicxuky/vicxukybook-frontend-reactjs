@@ -1,20 +1,29 @@
-import "./ProductDetail.scss";
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { getAllProductService } from "../../services/productService";
-import { addProductCart } from "../../redux/cartSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
 
 import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
+import { getAllProductService } from "../../services/productService";
+import { addProductCart } from "../../redux/cartSlice";
+import { formatCashVN } from "../../functionsStore";
+import "./ProductDetail.scss";
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const productsCart = useSelector((state) => state.cart.value);
 
+  const navigate = useNavigate();
+
   let { id } = useParams();
+
   const [quantity, setQuantity] = useState(1);
   const [productDetail, setProductDetail] = useState({});
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+
   const checkIdCart = () => {
     let idd = parseInt(id);
     if (productsCart.length === 0) {
@@ -29,8 +38,7 @@ const ProductDetail = () => {
     }
   };
   const handleAddToCart = () => {
-    console.log("Cart", productsCart);
-    console.log(checkIdCart());
+    setShow(true);
     let checkKQ = checkIdCart();
 
     if (checkKQ === true) {
@@ -48,6 +56,26 @@ const ProductDetail = () => {
         })
       );
     }
+  };
+
+  const handleBuy = () => {
+    let checkKQ = checkIdCart();
+    if (checkKQ === true) {
+      console.log("San pham da ton tai");
+    }
+    if (checkKQ === false) {
+      console.log("add to cart");
+      dispatch(
+        addProductCart({
+          id: parseInt(id),
+          image: productDetail.image,
+          title: productDetail.title,
+          price: productDetail.priceNew,
+          quantity: quantity,
+        })
+      );
+    }
+    navigate("/cart");
   };
 
   const percent = () => {
@@ -79,16 +107,17 @@ const ProductDetail = () => {
 
   // get one product
   const getProductDetail = async () => {
-    await getAllProductService(id).then((res) => {
-      if (res && res.data.errCode === 0) {
-        setProductDetail(res.data.products);
-      }
-    });
+    let res = await getAllProductService(id);
+    if (res && res.data.errCode === 0) {
+      setProductDetail(res.data.products);
+    }
   };
 
   useEffect(() => {
+    document.documentElement.scrollTop = 0;
     getProductDetail();
   }, []);
+
   return (
     <Layout>
       <div className="container shadow rounded mt-3">
@@ -110,9 +139,11 @@ const ProductDetail = () => {
               <span className="mr-5">Tác giả: {productDetail.author}</span>
             </div>
             <div className="price mt-3">
-              <strike>{productDetail.priceOld} VNĐ</strike>
+              <strike>{formatCashVN(parseInt(productDetail.priceOld))}</strike>
               <span className="shadow"> -{percent()}%</span>
-              <div className="new-price">{productDetail.priceNew} VNĐ</div>
+              <div className="new-price">
+                {formatCashVN(parseInt(productDetail.priceNew))}
+              </div>
             </div>
             <div className="quantity mt-5">
               Số lượng: &nbsp;
@@ -133,6 +164,22 @@ const ProductDetail = () => {
               </div>
             </div>
             <div className="buy-product mt-5">
+              {/* modal */}
+              <Modal show={show} onHide={handleClose}>
+                <Modal.Header>
+                  <Modal.Title>Thông báo</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Sản phẩm đã được thêm vào giỏ hàng!!!</Modal.Body>
+                <Modal.Footer>
+                  <Link to="/cart">
+                    <Button variant="primary">Giỏ Hàng</Button>
+                  </Link>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Đóng
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+              {/* modal */}
               <button
                 className="add-to-cart shadow hover-web"
                 onClick={handleAddToCart}
@@ -140,9 +187,10 @@ const ProductDetail = () => {
                 <i className="bi bi-cart"></i>
                 &nbsp;Thêm vào giỏ hàng
               </button>
-              <Link to="/cart">
-                <button className="buy-now shadow hover-web">Mua Ngay</button>
-              </Link>
+
+              <button className="buy-now shadow hover-web" onClick={handleBuy}>
+                Mua Ngay
+              </button>
             </div>
           </div>
         </div>
