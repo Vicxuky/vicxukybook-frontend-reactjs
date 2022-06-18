@@ -1,7 +1,7 @@
 import LayoutSystem from "../LayoutSystem";
-import { useEffect, useState } from "react";
-import Lightbox from "react-image-lightbox";
-import "react-image-lightbox/style.css";
+import { useCallback, useEffect, useState } from "react";
+// import Lightbox from "react-image-lightbox";
+// import "react-image-lightbox/style.css";
 
 import {
   createNewProductService,
@@ -10,11 +10,11 @@ import {
   getAllProductService,
 } from "../../../services/productService";
 import "./ManageProducts.scss";
+import PaginatedItems from "../../../components/Paginate/Paginate";
 
 const ManageProducts = () => {
   const [errMessage, setErrMessage] = useState("");
   const [urlImage, setUrlImage] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
   const [isCreate, setIsCreate] = useState(true);
 
   // s
@@ -31,7 +31,8 @@ const ManageProducts = () => {
   });
 
   //
-  const [listProduct, setListProduct] = useState([]);
+  const [productList, setProductList] = useState([]);
+  const [productListPaginated, setProductListPaginated] = useState([]);
 
   //
   const handleInput = (e) => {
@@ -86,17 +87,22 @@ const ManageProducts = () => {
   };
 
   // get All product
-  const getAllProduct = async () => {
+  const getAllProduct = async (callBack) => {
     await getAllProductService("ALL").then((res) => {
       if (res && res.data.errCode === 0) {
-        setListProduct(res.data.products);
+        setProductList(res.data.products);
       }
     });
+    callBack();
   };
+  // getProducts Paginated
+  const handleProductPaginated = useCallback((data) => {
+    setProductListPaginated(data);
+  }, []);
 
   useEffect(() => {
-    getAllProduct();
-  }, []);
+    getAllProduct(handleProductPaginated);
+  }, [handleProductPaginated]);
 
   const handleClearInputEdit = (e) => {
     e.preventDefault();
@@ -303,15 +309,15 @@ const ManageProducts = () => {
             <div
               className="preview-image form-group col-md-3"
               style={{ backgroundImage: `url(${urlImage})` }}
-              onClick={() => setIsOpen(true)}
+              // onClick={() => setIsOpen(true)}
             >
-              {console.log(urlImage)}
-              {isOpen === true && (
+              {/* {console.log(urlImage)} */}
+              {/* {isOpen === true && (
                 <Lightbox
                   mainSrc={urlImage}
                   // onCloseRequest={() => setIsOpen(false)}
                 />
-              )}
+              )} */}
             </div>
           </div>
           {isCreate ? (
@@ -361,7 +367,7 @@ const ManageProducts = () => {
               <th>Action</th>
             </tr>
 
-            {listProduct?.map((item) => {
+            {productListPaginated?.map((item) => {
               let category = "";
               if (item.categoryId === "C1") {
                 category = "Marketing - bán hàng";
@@ -374,7 +380,6 @@ const ManageProducts = () => {
               } else {
                 category = "Not category";
               }
-
               return (
                 <tr key={item.id}>
                   <td>{item.title}</td>
@@ -404,6 +409,13 @@ const ManageProducts = () => {
             })}
           </tbody>
         </table>
+        <div className="mt-3">
+          <PaginatedItems
+            onProductPaginated={handleProductPaginated}
+            items={productList}
+            itemsPerPage={5}
+          />
+        </div>
       </div>
       {/* *List product */}
     </LayoutSystem>

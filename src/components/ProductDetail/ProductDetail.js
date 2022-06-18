@@ -105,18 +105,18 @@ const ProductDetail = () => {
     }
   };
 
-  // get one product
-  const getProductDetail = async () => {
-    let res = await getAllProductService(id);
-    if (res && res.data.errCode === 0) {
-      setProductDetail(res.data.products);
-    }
-  };
-
   useEffect(() => {
     document.documentElement.scrollTop = 0;
+    // get one product
+    const getProductDetail = async () => {
+      await getAllProductService(id).then((res) => {
+        if (res && res.data.errCode === 0) {
+          setProductDetail(res.data.products);
+        }
+      });
+    };
     getProductDetail();
-  }, []);
+  }, [id]);
 
   return (
     <Layout>

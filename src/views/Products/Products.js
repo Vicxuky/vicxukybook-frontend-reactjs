@@ -14,13 +14,20 @@ import ReactPaginate from "react-paginate";
 const Products = () => {
   const search = useSelector((state) => state.search.value);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [productList, setProductList] = useState([]);
   const [message, setMessage] = useState("All Product:");
 
   const [sort, setSort] = useState("ALL");
   const [category, setCategory] = useState("ALL");
-  const navigate = useNavigate();
+  const [quantityFilter, setQuantityFilter] = useState();
+
+  useEffect(() => {
+    if (search) {
+      setMessage(`Results for keyword: "${search}"`);
+    }
+  }, [search]);
 
   const handleSort = (e) => {
     setSort(e.target.value);
@@ -66,6 +73,7 @@ const Products = () => {
       }
       return 1;
     });
+    setQuantityFilter(productListFilter.length);
     setCurrentItems(productListFilter.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(productListFilter.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, productList, category, search]);
@@ -148,20 +156,6 @@ const Products = () => {
                   );
                 })}
               </div>
-              <div className="top-sale">
-                <h2>TOP sale:</h2>
-                {productList.slice(0, 6).map((item) => {
-                  return (
-                    <div
-                      key={item.id}
-                      onClick={() => handleProductDetail(item.id)}
-                    >
-                      <img width={100} alt={item.image} src={item.image} />
-                      <div>{item.title}</div>
-                    </div>
-                  );
-                })}
-              </div>
             </div>
             <div className="container-products col-lg-10 p-0">
               <div className="d-flex justify-content-between">
@@ -186,23 +180,6 @@ const Products = () => {
               <hr />
               <div className="product-list mt-1 d-flex flex-wrap justify-content-between">
                 {currentItems
-                  // .filter((item) => {
-                  //   if (search) {
-                  //     return item.title
-                  //       .toLowerCase()
-                  //       .includes(search.toLowerCase());
-                  //   }
-                  //   if (category === "C1") {
-                  //     return item.categoryId === "C1";
-                  //   } else if (category === "C2") {
-                  //     return item.categoryId === "C2";
-                  //   } else if (category === "C3") {
-                  //     return item.categoryId === "C3";
-                  //   } else if (category === "C4") {
-                  //     return item.categoryId === "C4";
-                  //   }
-                  //   return 1;
-                  // })
                   .sort((a, b) => {
                     if (sort === "low") {
                       return a.priceNew - b.priceNew;
@@ -229,20 +206,22 @@ const Products = () => {
                     );
                   })}
               </div>
-              <ReactPaginate
-                breakLabel="..."
-                nextLabel="next >"
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={5}
-                pageCount={pageCount}
-                previousLabel="< previous"
-                renderOnZeroPageCount={null}
-                containerClassName="pagination"
-                pageLinkClassName="page-num"
-                previousLinkClassName="page-num"
-                nextLinkClassName="page-num"
-                activeLinkClassName="active"
-              />
+              {quantityFilter > itemsPerPage && (
+                <ReactPaginate
+                  breakLabel="..."
+                  nextLabel="next >"
+                  onPageChange={handlePageClick}
+                  pageRangeDisplayed={5}
+                  pageCount={pageCount}
+                  previousLabel="< previous"
+                  renderOnZeroPageCount={null}
+                  containerClassName="pagination"
+                  pageLinkClassName="page-num"
+                  previousLinkClassName="page-num"
+                  nextLinkClassName="page-num"
+                  activeLinkClassName="active"
+                />
+              )}
             </div>
           </div>
         </div>

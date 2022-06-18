@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal, Button } from "react-bootstrap";
 
@@ -13,26 +13,35 @@ const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const productsCart = useSelector((state) => state.cart.value);
-  // total cart
-  const totalPriceCart = productsCart.reduce((total, item) => {
-    return total + item.price * item.quantity;
-  }, 0);
 
-  const statusOrder =
-    productsCart.map((item, stt = 0) => {
-      stt += 1;
-      return (
-        stt +
-        ". " +
-        item.title +
-        " | Price: " +
-        item.price +
-        " x Quantity: " +
-        item.quantity
-      );
-    }) +
-    " | Total: " +
-    totalPriceCart;
+  // total cart
+  const totalPriceCart = useMemo(() => {
+    const result = productsCart.reduce((total, item) => {
+      return total + item.price * item.quantity;
+    }, 0);
+    return result;
+  }, [productsCart]);
+
+  // save order
+  const statusOrder = useMemo(() => {
+    return (
+      productsCart.map((item, stt = 0) => {
+        stt += 1;
+        return (
+          stt +
+          ". " +
+          item.title +
+          " | Price: " +
+          item.price +
+          " x Quantity: " +
+          item.quantity
+        );
+      }) +
+      " | Total: " +
+      totalPriceCart
+    );
+  }, [productsCart, totalPriceCart]);
+
   const [order, setOrder] = useState({
     fullName: "",
     email: "",
@@ -69,9 +78,10 @@ const Checkout = () => {
   };
   const handleCheck = () => {
     document.getElementById("btn-sent").disabled = true;
-
+    console.log("check");
     document.getElementById("check-buy").onclick = function (e) {
       if (this.checked) {
+        console.log("check true");
         document.getElementById("btn-sent").disabled = false;
       } else {
         document.getElementById("btn-sent").disabled = true;
@@ -92,9 +102,11 @@ const Checkout = () => {
     dispatch(deleteAllProductCart());
     navigate("/cart");
   };
+
   useEffect(() => {
     handleCheck();
   }, []);
+
   return (
     <Layout>
       <div className="container">

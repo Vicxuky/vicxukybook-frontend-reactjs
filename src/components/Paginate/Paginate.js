@@ -1,36 +1,37 @@
 import ReactPaginate from "react-paginate";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 
 import "./Paginate.scss";
 
-const PaginatedItems = ({ itemsPerPage, items }) => {
+const PaginatedItems = ({ itemsPerPage, items, onProductPaginated }) => {
   const [currentItems, setCurrentItems] = useState();
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
 
   useEffect(() => {
+    onProductPaginated(currentItems);
+  }, [currentItems, onProductPaginated]);
+
+  useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     setCurrentItems(items.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(items.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage]);
+  }, [itemOffset, itemsPerPage, items]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % items.length;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
     setItemOffset(newOffset);
   };
+
   return (
     <>
       <ReactPaginate
         breakLabel="..."
-        nextLabel="next >"
+        nextLabel="Next >"
         onPageChange={handlePageClick}
         pageRangeDisplayed={5}
         pageCount={pageCount}
-        previousLabel="< previous"
+        previousLabel="< Prev"
         renderOnZeroPageCount={null}
         containerClassName="pagination"
         pageLinkClassName="page-num"
@@ -41,4 +42,5 @@ const PaginatedItems = ({ itemsPerPage, items }) => {
     </>
   );
 };
-export default PaginatedItems;
+
+export default memo(PaginatedItems);
